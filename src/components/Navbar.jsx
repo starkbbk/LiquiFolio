@@ -4,8 +4,8 @@ import LiquidGlassWrapper from './LiquidGlassWrapper';
 const Navbar = () => {
   const navLinks = [
     { name: 'Home', href: '#home' },
-    { name: 'Skills', href: '#skills' },
     { name: 'Projects', href: '#projects' },
+    { name: 'Skills', href: '#skills' },
     { name: 'Achievements', href: '#achievements' },
     { name: 'Contact', href: '#contact' },
   ];
