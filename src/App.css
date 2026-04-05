@@ -316,3 +316,27 @@ a {
 
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 .animate-spin { animation: spin 1s linear infinite; }
+
+.skills-grid-layout {
+  display: grid;
+  gap: 3rem;
+  align-items: stretch;
+}
+
+@media (min-width: 1024px) {
+  .skills-grid-layout {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .skills-grid-layout {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .skills-grid-layout {
+    grid-template-columns: 1fr;
+  }
+}

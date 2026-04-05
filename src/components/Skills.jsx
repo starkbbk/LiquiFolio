@@ -247,16 +247,11 @@ const Skills = () => {
     <section id="skills" className="section-wrapper container">
       <h2 className="section-title gradient-text" style={{ fontSize: '3rem', marginBottom: '3rem' }}>Technical Skills</h2>
       
-      <div className="responsive-grid" style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))',
-        gap: '3rem',
-        alignItems: 'start'
-      }}>
+      <div className="skills-grid-layout">
         {skillsData.map((category, index) => (
           <div
             key={category.category}
-            style={{ width: '100%', animation: `fadeIn 0.5s ease ${index * 0.1}s forwards`, opacity: 0 }}
+            style={{ width: '100%', display: 'flex', animation: `fadeIn 0.5s ease ${index * 0.1}s forwards`, opacity: 0 }}
           >
             <LiquidGlassWrapper
               glassProps={{
@@ -267,7 +262,10 @@ const Skills = () => {
                 style: {
                   borderRadius: '28px',
                   flexDirection: 'column',
-                  alignItems: 'flex-start'
+                  alignItems: 'flex-start',
+                  width: '100%',
+                  display: 'flex',
+                  flex: 1
                 }
               }}
             >
