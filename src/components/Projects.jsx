@@ -12,7 +12,7 @@ const projectsData = [
     description: 'A browser extension for applying high-end Liquid Glass UI effects to any web component with interactive rendering filters.',
     tech: ['JavaScript', 'HTML5', 'CSS3', 'Web APIs'],
     link: 'https://github.com/starkbbk/Web-UI-Transformer-Extension',
-    sound: '/sounds/lightning.mp3',
+    sound: '/sounds/Lightning.mp3',
     features: [
       'Injects realistic glassmorphism dynamically',
       'Customizable blur and refraction levels',
@@ -28,7 +28,7 @@ const projectsData = [
     description: 'A full-stack AI-powered application that seamlessly scans and analyzes website technology stacks using OpenRouter API.',
     tech: ['TypeScript', 'React', 'Node.js', 'AI'],
     link: 'https://github.com/starkbbk/Tech-Stack-Analyzer',
-    sound: '/sounds/fire.mp3',
+    sound: '/sounds/Fire.mp3',
     features: [
       'Automatic technology stack detection',
       'AI-driven alternative suggestions',
@@ -44,7 +44,7 @@ const projectsData = [
     description: 'Python based Code Vulnerability Scanner that automatically detects and resolves vulnerabilities using intelligent static analysis.',
     tech: ['JavaScript', 'Python', 'AI', 'Security'],
     link: 'https://github.com/starkbbk/AI-Code-Vulnerability-Scanner',
-    sound: '/sounds/water.mp3',
+    sound: '/sounds/Water.mp3',
     features: [
       'Static codebase analysis',
       'LLM integration to patch vulnerabilities automatically',
@@ -60,7 +60,7 @@ const projectsData = [
     description: 'A RAG-enabled production-ready Voice Assistant using gemma-3-4b-it model, built for high-performance and seamless voice interaction.',
     tech: ['JavaScript', 'RAG', 'Voice AI', 'LLM'],
     link: 'https://github.com/starkbbk/VoiceAI-Assistant',
-    sound: '/sounds/sand.mp3',
+    sound: '/sounds/Sand.mp3',
     features: [
       'Low latency voice-to-voice interaction',
       'RAG pipeline for specialized domain knowledge',
@@ -86,10 +86,16 @@ const ProjectCard = ({ project, index }) => {
       currentAudioRef.current.pause();
       currentAudioRef.current.currentTime = 0;
     }
+    
+    console.log(`[Audio] Attempting to play: ${soundPath}`);
     const audio = new Audio(soundPath);
-    audio.volume = 0.15;
+    audio.volume = 0.4;
     audio.currentTime = 0;
-    audio.play().catch(() => {}); // silently catch autoplay policy errors
+    audio.play()
+      .then(() => console.log(`[Audio] Playing: ${soundPath}`))
+      .catch((err) => {
+        console.warn(`[Audio] Playback blocked or failed for ${soundPath}:`, err);
+      });
     currentAudioRef.current = audio;
   };
 
