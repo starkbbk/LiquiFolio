@@ -44,12 +44,12 @@ const LiquidGlassWrapper = ({ children, glassProps = {} }) => {
     padding,
     borderRadius: radius,
 
-    // Apple Liquid Glass style
-    background: `linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 100%)`,
+    // Apple Liquid Glass style - highly transparent
+    background: `linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 100%)`,
     
-    // Smooth blur + saturation for the frosted look
-    backdropFilter: `blur(25px) saturate(160%)`,
-    WebkitBackdropFilter: `blur(25px) saturate(160%)`,
+    // Lower blur so we can see the background image shapes clearly through it
+    backdropFilter: `blur(12px) saturate(120%)`,
+    WebkitBackdropFilter: `blur(12px) saturate(120%)`,
 
     // Soft drop shadow + inner bevel ring shadow
     boxShadow: `
