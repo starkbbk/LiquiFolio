@@ -55,7 +55,7 @@ const Contact = () => {
             intensity: 0.4,
             blur: 20,
             padding: '5rem 3rem',
-            glassClassName: 'glass-contact',
+            glassClassName: 'glass-contact mobile-glass-padding',
             style: {
               borderRadius: '32px',
               textAlign: 'center',
@@ -65,12 +65,12 @@ const Contact = () => {
             }
           }}
         >
-          <h2 className="section-title gradient-text" style={{ fontSize: '3rem', marginBottom: '1rem' }}>Let's Connect</h2>
+          <h2 className="section-title gradient-text" style={{ fontSize: '3rem', margin: '0 auto 1rem auto' }}>Let's Connect</h2>
           <p style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '3rem', fontSize: '1.1rem' }}>
             Open for opportunities and collaborations. Let's build something amazing together.
           </p>
           
-          <div style={{
+          <div className="contact-buttons" style={{
             display: 'flex',
             justifyContent: 'center',
             gap: '1.5rem',

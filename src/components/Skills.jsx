@@ -44,7 +44,7 @@ const Skills = () => {
     <section id="skills" className="section-wrapper container">
       <h2 className="section-title gradient-text" style={{ fontSize: '3rem', marginBottom: '3rem' }}>Technical Skills</h2>
       
-      <div style={{
+      <div className="responsive-grid" style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))',
         gap: '3rem',

@@ -21,11 +21,12 @@ const Navbar = () => {
       justifyContent: 'center',
     }}>
       <LiquidGlassWrapper
+        className="nav-glass-container"
         glassProps={{
           intensity: 0.4,
           blur: 15,
           padding: '16px 80px',
-          glassClassName: 'glass-navbar',
+          glassClassName: 'glass-navbar nav-wrapper',
           style: {
             borderRadius: '50px',
             display: 'flex',
@@ -45,7 +46,7 @@ const Navbar = () => {
           SV
         </div>
         
-        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+        <div className="nav-links" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           {navLinks.map((link) => (
             <a
               key={link.name}

@@ -21,7 +21,7 @@ const Hero = () => {
           }}
         >
           {/* Profile Photo */}
-          <div style={{
+          <div className="hero-pic" style={{
             width: '160px',
             height: '160px',
             borderRadius: '50%',
@@ -48,13 +48,13 @@ const Hero = () => {
           </div>
 
           <motion.h1 
-            className="gradient-text"
+            className="gradient-text hero-title"
             style={{ fontSize: '4.5rem', fontWeight: '800', marginBottom: '0.75rem' }}
           >
             Shivanand Verma
           </motion.h1>
           
-          <p style={{
+          <p className="hero-subtitle" style={{
             fontSize: '1.2rem',
             color: 'rgba(255, 255, 255, 0.9)',
             marginBottom: '1.5rem',
@@ -83,7 +83,7 @@ const Hero = () => {
             ))}
           </div>
 
-          <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
+          <div className="hero-buttons" style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

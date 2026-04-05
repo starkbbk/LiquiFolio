@@ -127,7 +127,7 @@ const ProjectCard = ({ project, index }) => {
               intensity: 0.25,
               blur: 12,
               padding: '2.5rem',
-              glassClassName: 'glass-projects',
+              glassClassName: 'glass-projects mobile-glass-padding',
               style: {
                 borderRadius: '28px',
                 flexDirection: 'column',
@@ -213,7 +213,7 @@ const ProjectCard = ({ project, index }) => {
               intensity: 0.25,
               blur: 12,
               padding: '2rem',
-              glassClassName: `glass-projects theme-${project.theme}`,
+              glassClassName: `glass-projects theme-${project.theme} mobile-glass-padding`,
               style: {
                 borderRadius: '28px',
                 flexDirection: 'column',

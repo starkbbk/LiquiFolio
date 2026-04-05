@@ -51,7 +51,7 @@ const Achievements = () => {
                 intensity: 0.2,
                 blur: 15,
                 padding: '2.5rem',
-                glassClassName: 'glass-achievements',
+                glassClassName: 'glass-achievements achievements-flex mobile-glass-padding',
                 style: {
                   borderRadius: '28px',
                   display: 'flex',

@@ -4,6 +4,10 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 body {
@@ -274,4 +278,38 @@ a {
 
 .shake {
   animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* ====== MOBILE RESPONSIVENESS (<= 768px) ====== */
+@media (max-width: 768px) {
+  /* Global Resets */
+  .container { padding: 0 1.25rem !important; }
+  .section-title { font-size: 2.2rem !important; margin-bottom: 2rem !important; }
+  .section-wrapper { padding-top: 100px !important; }
+
+  /* Hero */
+  .hero-title { font-size: 2.8rem !important; }
+  .hero-subtitle { font-size: 1rem !important; }
+  .hero-buttons { gap: 12px !important; flex-wrap: wrap; justify-content: center !important; }
+  .hero-pic { width: 120px !important; height: 120px !important; margin-bottom: 1.5rem !important; }
+
+  /* Navbar */
+  .nav-wrapper { padding: 0.8rem 1.2rem !important; }
+  .nav-links { display: none !important; } /* Hide text links entirely to prevent overflow squishing */
+  .nav-glass-container { width: 90% !important; margin: 0 auto !important; }
+
+  /* Grids (Skills / Achievements) */
+  .responsive-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+
+  /* Projects */
+  .projects-grid { grid-template-columns: 1fr !important; }
+  .mobile-glass-padding { padding: 1.5rem !important; }
+  
+  /* Contact */
+  .contact-buttons a { width: 100% !important; justify-content: center !important; }
+}
+
+/* Extra Mobile Helpers */
+@media (max-width: 768px) {
+  .achievements-flex { flex-direction: column !important; align-items: flex-start !important; gap: 1rem !important; }
 }
