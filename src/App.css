@@ -209,12 +209,20 @@ a {
 }
 
 /* Glassmorphism Scoped Modules */
-.glass-hero, .glass-contact, .glass-navbar {
+.glass-navbar, .glass-contact {
   background: rgba(255, 255, 255, 0.08) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+}
+
+.glass-hero {
+  background: rgba(20, 25, 40, 0.6) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
 }
 
 .glass-projects, .glass-skills, .glass-achievements {
