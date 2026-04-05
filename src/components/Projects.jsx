@@ -73,6 +73,13 @@ const projectsData = [
 
 const currentAudioRef = { current: null }; // Module-level ref — shared across all cards
 
+const themeColors = {
+  lightning: { bg: 'rgba(168, 85, 247, 0.15)', border: 'rgba(168, 85, 247, 0.35)' },
+  fire:      { bg: 'rgba(239, 68, 68, 0.15)',  border: 'rgba(239, 68, 68, 0.35)' },
+  water:     { bg: 'rgba(6, 182, 212, 0.15)',  border: 'rgba(6, 182, 212, 0.35)' },
+  wind:      { bg: 'rgba(16, 185, 129, 0.15)', border: 'rgba(16, 185, 129, 0.35)' }
+};
+
 const ProjectCard = ({ project, index }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [flipComplete, setFlipComplete] = useState(false);
@@ -327,7 +334,13 @@ const ProjectCard = ({ project, index }) => {
               color: '#fff',
               marginBottom: '1rem',
               fontSize: '1.2rem',
-              fontWeight: '700'
+              fontWeight: '700',
+              background: themeColors[project.theme].bg,
+              padding: '8px 16px',
+              borderRadius: '10px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              border: `1px solid ${themeColors[project.theme].border}`
             }}>
               {project.emoji} README.md
             </h3>
@@ -364,7 +377,16 @@ const ProjectCard = ({ project, index }) => {
                 <div style={{ cursor: 'text', position: 'relative', zIndex: 5, fontSize: '1rem', lineHeight: '1.6' }} onClick={(e) => e.stopPropagation()}>
                   <ReactMarkdown
                     components={{
-                       h1: ({node, ...props}) => <h1 style={{fontSize: '1.6rem', color: '#fff', margin: '0.75rem 0'}} {...props}/>,
+                       h1: ({node, ...props}) => <h1 style={{
+                         fontSize: '1.5rem', 
+                         color: '#fff', 
+                         margin: '0.75rem 0',
+                         background: themeColors[project.theme].bg,
+                         padding: '10px 18px',
+                         borderRadius: '12px',
+                         display: 'inline-block',
+                         border: `1px solid ${themeColors[project.theme].border}`
+                       }} {...props}/>,
                        h2: ({node, ...props}) => <h2 style={{fontSize: '1.4rem', color: '#fff', margin: '0.75rem 0'}} {...props}/>,
                        h3: ({node, ...props}) => <h3 style={{fontSize: '1.2rem', color: '#fff', margin: '0.75rem 0'}} {...props}/>,
                        p: ({node, ...props}) => <p style={{margin: '0.75rem 0', fontSize: '1.05rem'}} {...props}/>,
