@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Skills from './components/Skills';
@@ -6,22 +6,13 @@ import Projects from './components/Projects';
 import Achievements from './components/Achievements';
 import Contact from './components/Contact';
 import Cursor from './components/Cursor';
-import bgImage from './assets/bg.png';
+import MotionCanvas from './components/MotionCanvas';
 
 function App() {
-  useEffect(() => {
-    document.body.style.backgroundImage = `url(${bgImage})`;
-    document.body.style.backgroundSize = 'cover';
-    document.body.style.backgroundPosition = 'center';
-    document.body.style.backgroundRepeat = 'no-repeat';
-    document.body.style.backgroundAttachment = 'fixed';
-    return () => {
-      document.body.style.backgroundImage = '';
-    };
-  }, []);
-
   return (
     <>
+      <MotionCanvas />
+
       {/* Custom Mouse Cursor */}
       <Cursor />
 

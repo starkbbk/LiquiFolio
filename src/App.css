@@ -22,15 +22,14 @@ html {
   overflow-x: hidden;
 }
 
-body::before {
-  content: "";
+#motionCanvas {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(5, 18, 40, 0.30); /* Lighter so background bleeds through glass cards */
-  z-index: -2;
+  z-index: -3;
+  pointer-events: none;
 }
 
 a, button {
