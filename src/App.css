@@ -340,3 +340,9 @@ a {
     grid-template-columns: 1fr;
   }
 }
+
+@media (min-width: 768px) {
+  .col-span-2 {
+    grid-column: span 2 !important;
+  }
+}

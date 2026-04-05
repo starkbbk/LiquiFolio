@@ -169,7 +169,7 @@ const SkillPhysicsCard = ({ category }) => {
   }, [category, dimensions]);
 
   return (
-    <div style={{ width: '100%', height: '500px', position: 'relative', overflow: 'hidden' }} ref={sceneRef}>
+    <div style={{ width: '100%', height: '400px', position: 'relative', overflow: 'hidden' }} ref={sceneRef}>
       {category.skills.map((skill) => {
          const baseRadius = 40;
          const dynamicRadius = baseRadius + (skill.length * 2.2);
@@ -268,20 +268,19 @@ const skillsData = [
 
 const Skills = () => {
   return (
-    <section id="skills" style={{ width: '100%', maxWidth: '100%', padding: '0 2rem' }} className="section-wrapper">
+    <section id="skills" style={{ width: '95%', maxWidth: '95vw', margin: '0 auto', padding: '0 1rem' }} className="section-wrapper">
       <h2 className="section-title gradient-text" style={{ fontSize: '3rem', marginBottom: '3rem' }}>Technical Skills</h2>
       
       <div className="skills-grid-layout">
         {skillsData.map((category, index) => (
           <div
             key={category.category}
+            className={index === skillsData.length - 1 && skillsData.length % 2 !== 0 ? 'col-span-2' : ''}
             style={{
               width: '100%',
               display: 'flex',
               animation: `fadeIn 0.5s ease ${index * 0.1}s forwards`,
-              opacity: 0,
-              // Last card spans both columns when total count is odd
-              gridColumn: (index === skillsData.length - 1 && skillsData.length % 2 !== 0) ? 'span 2' : undefined
+              opacity: 0
             }}
           >
             <LiquidGlassWrapper

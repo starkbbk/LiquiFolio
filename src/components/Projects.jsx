@@ -89,7 +89,7 @@ const ProjectCard = ({ project, index }) => {
     
     console.log(`[Audio] Attempting to play: ${soundPath}`);
     const audio = new Audio(soundPath);
-    audio.volume = 0.4;
+    audio.volume = 0.05;
     audio.currentTime = 0;
     audio.play()
       .then(() => console.log(`[Audio] Playing: ${soundPath}`))
@@ -137,10 +137,19 @@ const ProjectCard = ({ project, index }) => {
     
     const newFlippedState = !isFlipped;
     setIsFlipped(newFlippedState);
-    if (!newFlippedState) setFlipComplete(false); // reset instantly when flipping back
-
-    // Play the card's elemental sound effect
-    if (project.sound) playSound(project.sound);
+    if (!newFlippedState) {
+      setFlipComplete(false); // reset instantly when flipping back
+      
+      // STOP audio on unflip
+      if (currentAudioRef.current) {
+        currentAudioRef.current.pause();
+        currentAudioRef.current.currentTime = 0;
+        currentAudioRef.current = null;
+      }
+    } else {
+      // PLAY audio only on flip to back
+      if (project.sound) playSound(project.sound);
+    }
     
     // Broadcast Catastrophe Engine Signal globally
     window.dispatchEvent(
