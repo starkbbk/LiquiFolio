@@ -196,14 +196,18 @@ const ProjectCard = ({ project, index }) => {
         </div>
 
         {/* BACK FACE */}
-        <div style={{
-          position: 'absolute',
-          top: 0, left: 0, right: 0, bottom: 0,
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
-          transform: 'rotateY(180deg)',
-          height: '100%'
-        }}>
+        <div 
+          onClick={flipCard} // Click anywhere on back face to flip back
+          style={{
+            position: 'absolute',
+            top: 0, left: 0, right: 0, bottom: 0,
+            backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
+            transform: 'rotateY(180deg)',
+            height: '100%',
+            cursor: 'pointer' // Indicate interactivity
+          }}
+        >
           <LiquidGlassWrapper
             glassProps={{
               intensity: 0.25,
@@ -251,7 +255,7 @@ const ProjectCard = ({ project, index }) => {
               
               <div>
                 <strong style={{ color: '#fff' }}>📦 Installation:</strong>
-                <div style={{ background: 'rgba(0,0,0,0.3)', padding: '6px 10px', borderRadius: '4px', fontFamily: 'monospace', marginTop: '4px', color: '#06b6d4', wordBreak: 'break-word' }}>
+                <div style={{ background: 'rgba(0,0,0,0.3)', padding: '6px 10px', borderRadius: '4px', fontFamily: 'monospace', marginTop: '4px', color: '#06b6d4', wordBreak: 'break-word', cursor: 'text' }} onClick={(e) => e.stopPropagation()}>
                   {project.installation}
                 </div>
               </div>
@@ -262,7 +266,7 @@ const ProjectCard = ({ project, index }) => {
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '12px', marginTop: '20px', width: '100%' }}>
+            <div style={{ display: 'flex', gap: '12px', marginTop: '20px', width: '100%', position: 'relative' }}>
               <a
                 href={project.link}
                 target="_blank"
@@ -288,28 +292,18 @@ const ProjectCard = ({ project, index }) => {
                 GitHub
               </a>
 
-              <button
-                onClick={flipCard} // reverse animation
-                style={{
-                  background: 'linear-gradient(135deg, #a855f7, #ec4899)',
-                  padding: '8px 16px',
-                  borderRadius: '20px',
-                  color: '#fff',
-                  fontSize: '0.85rem',
-                  fontWeight: '600',
-                  border: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  cursor: 'pointer',
-                  marginLeft: 'auto'
-                }}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M19 12H5M12 19l-7-7 7-7"/>
-                </svg>
-                Go Back
-              </button>
+              <div style={{
+                position: 'absolute',
+                bottom: 0,
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                fontSize: '11px',
+                opacity: 0.4,
+                color: 'white',
+                pointerEvents: 'none'
+              }}>
+                tap anywhere to go back
+              </div>
             </div>
           </LiquidGlassWrapper>
         </div>
