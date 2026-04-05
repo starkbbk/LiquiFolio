@@ -42,17 +42,19 @@ a, button {
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0a0f;
+  background: #050508;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 5px;
+  background: linear-gradient(180deg, #00ffff, #a855f7, #ec4899, #ff4500, #f59e0b, #10b981, #00ffff);
+  background-attachment: fixed;
+  border-radius: 10px;
+  border: 3px solid #050508;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.4);
+  border: 2px solid #050508;
 }
 
 /* Base Styles */
