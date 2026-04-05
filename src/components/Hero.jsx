@@ -63,8 +63,10 @@ const HeroFloatingSkills = () => {
 
     // Generate random properties strictly once
     const bubbles = useMemo(() => {
-        return allSkills.map((item, index) => {
-            const size = 60 + Math.random() * 80; // 60px to 140px
+        // Shuffle and pick a smaller subset (18) to massively reduce render pipeline lag
+        const sampled = [...allSkills].sort(() => 0.5 - Math.random()).slice(0, 18);
+        return sampled.map((item, index) => {
+            const size = 50 + Math.random() * 60; // 50px to 110px (smaller)
             const top = 2 + Math.random() * 95; // 2% to 97%
             const left = 2 + Math.random() * 95; // 2% to 97%
             const duration = 20 + Math.random() * 30; // 20s to 50s
@@ -130,8 +132,6 @@ const HeroFloatingSkills = () => {
                                 background: `rgba(${rgbColor}, 0.15)`,
                                 boxShadow: `inset 0 0 20px rgba(${rgbColor}, 0.2), 0 4px 15px rgba(0,0,0,0.1), 0 0 10px rgba(${rgbColor}, 0.3)`,
                                 border: `1px solid rgba(${rgbColor}, 0.4)`,
-                                backdropFilter: 'blur(5px)',
-                                WebkitBackdropFilter: 'blur(5px)',
                                 color: 'rgba(255, 255, 255, 0.9)',
                                 fontSize: `${Math.max(0.65, bubble.size / 100)}rem`,
                                 fontWeight: '600',
@@ -169,8 +169,8 @@ const Hero = () => {
         >
           {/* Profile Photo */}
           <div className="hero-pic" style={{
-            width: '160px',
-            height: '160px',
+            width: '130px',
+            height: '130px',
             borderRadius: '50%',
             border: '3px solid rgba(255, 255, 255, 0.25)',
             display: 'flex',
@@ -196,7 +196,7 @@ const Hero = () => {
 
           <motion.h1 
             className="gradient-text hero-title"
-            style={{ fontSize: '4.05rem', fontWeight: '800', marginBottom: '0.75rem' }}
+            style={{ fontSize: '3.5rem', fontWeight: '800', marginBottom: '0.75rem' }}
           >
             Shivanand Verma
           </motion.h1>
