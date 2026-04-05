@@ -26,10 +26,6 @@ const LiquidGlassWrapper = ({ children, glassProps = {} }) => {
     textAlign,
     maxWidth,
     margin,
-    background = 'rgba(255, 255, 255, 0.08)',
-    backdropFilter = 'blur(12px)',
-    WebkitBackdropFilter = 'blur(12px)',
-    boxShadow = '0 8px 32px rgba(0, 0, 0, 0.2)',
     ...restStyles
   } = style;
 
@@ -37,7 +33,10 @@ const LiquidGlassWrapper = ({ children, glassProps = {} }) => {
     ? `${cornerRadius}px`
     : borderRadius || '28px';
 
-  // True liquid glass style — very transparent, heavy blur, layered reflections
+  // Extract custom scoped section className from props if passed
+  const { glassClassName = '' } = glassProps;
+
+  // True liquid glass style base frame
   const glassStyle = {
     position: 'relative',
     width: width || '100%',
@@ -48,13 +47,6 @@ const LiquidGlassWrapper = ({ children, glassProps = {} }) => {
     padding,
     borderRadius: radius,
     
-    // Core Unified Styles (can be overridden by parents)
-    background,
-    backdropFilter,
-    WebkitBackdropFilter,
-    border: border || '1px solid rgba(255, 255, 255, 0.12)',
-    boxShadow,
-
     // Layout
     display,
     flexDirection,
@@ -70,7 +62,7 @@ const LiquidGlassWrapper = ({ children, glassProps = {} }) => {
   };
 
   return (
-    <div style={glassStyle} className="liquid-glass-card">
+    <div style={glassStyle} className={`liquid-glass-card ${glassClassName}`}>
 
 
       {/* Content rendered above glass layers */}

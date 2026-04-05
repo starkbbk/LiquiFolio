@@ -12,10 +12,10 @@ const Hero = () => {
             intensity: 0.5,
             blur: 20,
             padding: '4rem 2rem',
+            glassClassName: 'glass-hero',
             style: {
               borderRadius: '32px',
               textAlign: 'center',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
               flexDirection: 'column'
             }
           }}

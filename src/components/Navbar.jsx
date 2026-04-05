@@ -25,12 +25,12 @@ const Navbar = () => {
           intensity: 0.4,
           blur: 15,
           padding: '16px 80px',
+          glassClassName: 'glass-navbar',
           style: {
             borderRadius: '50px',
             display: 'flex',
             alignItems: 'center',
             gap: '2rem',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
             width: 'max-content'
           }
         }}

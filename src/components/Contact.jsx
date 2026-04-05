@@ -55,10 +55,10 @@ const Contact = () => {
             intensity: 0.4,
             blur: 20,
             padding: '5rem 3rem',
+            glassClassName: 'glass-contact',
             style: {
               borderRadius: '32px',
               textAlign: 'center',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
               maxWidth: '1000px',
               margin: '0 auto',
               flexDirection: 'column'
