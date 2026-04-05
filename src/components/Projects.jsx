@@ -255,8 +255,8 @@ const ProjectCard = ({ project, index }) => {
               
               {/* Blinking Arrow pointing down */}
               <div style={{ animation: 'bounceBlink 1.5s infinite ease-in-out' }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ec4899" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 5v14M19 12l-7 7-7-7"/>
+                <svg width="32" height="48" viewBox="0 0 24 40" fill="none" stroke="#ec4899" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2v34M20 28l-8 8-8-8"/>
                 </svg>
               </div>
 
