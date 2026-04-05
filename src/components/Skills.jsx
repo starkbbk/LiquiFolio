@@ -268,7 +268,7 @@ const skillsData = [
 
 const Skills = () => {
   return (
-    <section id="skills" style={{ width: '95%', maxWidth: '95vw', margin: '0 auto', padding: '0 1rem' }} className="section-wrapper">
+    <section id="skills" style={{ width: '100%', maxWidth: 'none', margin: '0', padding: '0 2.5rem' }} className="section-wrapper container">
       <h2 className="section-title gradient-text" style={{ fontSize: '3rem', marginBottom: '3rem' }}>Technical Skills</h2>
       
       <div className="skills-grid-layout">
