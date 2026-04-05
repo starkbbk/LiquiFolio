@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import LiquidGlassWrapper from './LiquidGlassWrapper';
 import ElementalCanvas from './ElementalCanvas';
+import ReactMarkdown from 'react-markdown';
 
 const projectsData = [
   {
@@ -69,6 +70,41 @@ const projectsData = [
 const ProjectCard = ({ project, index }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [flipComplete, setFlipComplete] = useState(false);
+  const [readmeContent, setReadmeContent] = useState('');
+  const [loadingReadme, setLoadingReadme] = useState(false);
+  const [readmeFailed, setReadmeFailed] = useState(false);
+
+  useEffect(() => {
+    if (isFlipped && !readmeContent && !loadingReadme && !readmeFailed) {
+      setLoadingReadme(true);
+      const repoName = project.link.split('/').pop();
+      fetch(`https://raw.githubusercontent.com/starkbbk/${repoName}/main/README.md`)
+        .then(res => {
+          if (!res.ok) throw new Error('Not found');
+          return res.text();
+        })
+        .then(text => {
+          setReadmeContent(text);
+          setLoadingReadme(false);
+        })
+        .catch(() => {
+          // Fallback to master if main fails
+          fetch(`https://raw.githubusercontent.com/starkbbk/${repoName}/master/README.md`)
+            .then(res => {
+               if (!res.ok) throw new Error('Not found');
+               return res.text();
+            })
+            .then(text => {
+               setReadmeContent(text);
+               setLoadingReadme(false);
+            })
+            .catch(() => {
+               setReadmeFailed(true);
+               setLoadingReadme(false);
+            });
+        });
+    }
+  }, [isFlipped, project.link, readmeContent, loadingReadme, readmeFailed]);
 
   const flipCard = (e) => {
     // Stop propagation so clicking the button inside doesn't trigger parent click
@@ -108,6 +144,7 @@ const ProjectCard = ({ project, index }) => {
           width: '100%',
           height: '100%', // Match container height perfectly
           transformStyle: 'preserve-3d',
+          WebkitTransformStyle: 'preserve-3d',
           position: 'relative',
           cursor: isFlipped ? 'default' : 'pointer'
         }}
@@ -120,6 +157,8 @@ const ProjectCard = ({ project, index }) => {
           top: 0, left: 0, right: 0, bottom: 0,
           backfaceVisibility: 'hidden',
           WebkitBackfaceVisibility: 'hidden',
+          transform: 'translateZ(1px)',
+          WebkitTransform: 'translateZ(1px)',
           height: '100%'
         }}>
           <LiquidGlassWrapper
@@ -203,7 +242,8 @@ const ProjectCard = ({ project, index }) => {
             top: 0, left: 0, right: 0, bottom: 0,
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
-            transform: 'rotateY(180deg)',
+            transform: 'rotateY(180deg) translateZ(1px)',
+            WebkitTransform: 'rotateY(180deg) translateZ(1px)',
             height: '100%',
             cursor: 'pointer' // Indicate interactivity
           }}
@@ -246,24 +286,64 @@ const ProjectCard = ({ project, index }) => {
               flexGrow: 1, // take remaining space so buttons stay at bottom
               paddingRight: '5px' // prevent scrollbar from hitting text
             }}>
-              <div>
-                <strong style={{ color: '#fff' }}>✅ Key Features:</strong>
-                <ul style={{ paddingLeft: '1.5rem', marginTop: '4px' }}>
-                  {project.features.map(f => <li key={f} style={{marginBottom: "2px"}}>{f}</li>)}
-                </ul>
-              </div>
-              
-              <div>
-                <strong style={{ color: '#fff' }}>📦 Installation:</strong>
-                <div style={{ background: 'rgba(0,0,0,0.3)', padding: '6px 10px', borderRadius: '4px', fontFamily: 'monospace', marginTop: '4px', color: '#06b6d4', wordBreak: 'break-word', cursor: 'text' }} onClick={(e) => e.stopPropagation()}>
-                  {project.installation}
+              {loadingReadme && (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', color: '#06b6d4', flexDirection: 'column', gap: '8px' }}>
+                  <svg className="animate-spin" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="12" y1="2" x2="12" y2="6"></line>
+                    <line x1="12" y1="18" x2="12" y2="22"></line>
+                    <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                    <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                    <line x1="2" y1="12" x2="6" y2="12"></line>
+                    <line x1="18" y1="12" x2="22" y2="12"></line>
+                    <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                    <line x1="16.24" y1="4.93" x2="19.07" y2="7.76"></line>
+                  </svg>
+                  <span>Fetching README...</span>
                 </div>
-              </div>
+              )}
+              
+              {!loadingReadme && !readmeFailed && readmeContent && (
+                <div style={{ cursor: 'text', position: 'relative', zIndex: 5 }} onClick={(e) => e.stopPropagation()}>
+                  <ReactMarkdown
+                    components={{
+                       h1: ({node, ...props}) => <h1 style={{fontSize: '1.4rem', color: '#fff', margin: '0.5rem 0'}} {...props}/>,
+                       h2: ({node, ...props}) => <h2 style={{fontSize: '1.2rem', color: '#fff', margin: '0.5rem 0'}} {...props}/>,
+                       h3: ({node, ...props}) => <h3 style={{fontSize: '1rem', color: '#fff', margin: '0.5rem 0'}} {...props}/>,
+                       p: ({node, ...props}) => <p style={{margin: '0.5rem 0'}} {...props}/>,
+                       ul: ({node, ...props}) => <ul style={{paddingLeft: '1.5rem', margin: '0.5rem 0'}} {...props}/>,
+                       li: ({node, ...props}) => <li style={{margin: '0.2rem 0'}} {...props}/>,
+                       a: ({node, ...props}) => <a style={{color: '#06b6d4', textDecoration: 'underline'}} target="_blank" rel="noopener noreferrer" {...props}/>,
+                       code: ({node, ...props}) => <code style={{background: 'rgba(0,0,0,0.3)', padding: '2px 4px', borderRadius: '4px', fontFamily: 'monospace'}} {...props}/>,
+                       pre: ({node, ...props}) => <pre style={{background: 'rgba(0,0,0,0.3)', padding: '10px', borderRadius: '6px', overflowX: 'auto', margin: '0.5rem 0'}} {...props}/>,
+                    }}
+                  >
+                    {readmeContent}
+                  </ReactMarkdown>
+                </div>
+              )}
 
-              <div>
-                <strong style={{ color: '#fff' }}>🚀 Usage:</strong>
-                <p style={{ marginTop: '4px' }}>{project.usage}</p>
-              </div>
+              {readmeFailed && (
+                <>
+                  <div>
+                    <strong style={{ color: '#fff' }}>✅ Key Features:</strong>
+                    <ul style={{ paddingLeft: '1.5rem', marginTop: '4px' }}>
+                      {project.features.map(f => <li key={f} style={{marginBottom: "2px"}}>{f}</li>)}
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <strong style={{ color: '#fff' }}>📦 Installation:</strong>
+                    <div style={{ background: 'rgba(0,0,0,0.3)', padding: '6px 10px', borderRadius: '4px', fontFamily: 'monospace', marginTop: '4px', color: '#06b6d4', wordBreak: 'break-word', cursor: 'text' }} onClick={(e) => e.stopPropagation()}>
+                      {project.installation}
+                    </div>
+                  </div>
+
+                  <div>
+                    <strong style={{ color: '#fff' }}>🚀 Usage:</strong>
+                    <p style={{ marginTop: '4px' }}>{project.usage}</p>
+                  </div>
+                </>
+              )}
             </div>
 
             <div style={{ display: 'flex', gap: '12px', marginTop: '20px', width: '100%', position: 'relative' }}>
