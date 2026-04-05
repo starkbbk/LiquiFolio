@@ -89,7 +89,7 @@ const ProjectCard = ({ project, index }) => {
     
     console.log(`[Audio] Attempting to play: ${soundPath}`);
     const audio = new Audio(soundPath);
-    audio.volume = 0.05;
+    audio.volume = 0.15;
     audio.currentTime = 0;
     audio.play()
       .then(() => console.log(`[Audio] Playing: ${soundPath}`))
