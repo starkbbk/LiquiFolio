@@ -381,9 +381,8 @@ const ProjectCard = ({ project, index }) => {
 
               <div style={{
                 position: 'absolute',
-                bottom: 0,
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
+                bottom: '8px',
+                right: '10px',
                 fontSize: '11px',
                 opacity: 0.4,
                 color: 'white',
