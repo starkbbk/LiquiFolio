@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import LiquidGlassWrapper from './LiquidGlassWrapper';
+import ElementalCanvas from './ElementalCanvas';
 
 const projectsData = [
   {
     title: 'Web-UI-Transformer-Extension',
+    theme: 'lightning',
     emoji: '🪄',
     description: 'A browser extension for applying high-end Liquid Glass UI effects to any web component with interactive rendering filters.',
     tech: ['JavaScript', 'HTML5', 'CSS3', 'Web APIs'],
@@ -19,6 +21,7 @@ const projectsData = [
   },
   {
     title: 'Tech-Stack-Analyzer',
+    theme: 'fire',
     emoji: '🔍',
     description: 'A full-stack AI-powered application that seamlessly scans and analyzes website technology stacks using OpenRouter API.',
     tech: ['TypeScript', 'React', 'Node.js', 'AI'],
@@ -33,6 +36,7 @@ const projectsData = [
   },
   {
     title: 'AI-Code-Vulnerability-Scanner',
+    theme: 'water',
     emoji: '🛡️',
     description: 'Python based Code Vulnerability Scanner that automatically detects and resolves vulnerabilities using intelligent static analysis.',
     tech: ['JavaScript', 'Python', 'AI', 'Security'],
@@ -47,6 +51,7 @@ const projectsData = [
   },
   {
     title: 'VoiceAI-Assistant',
+    theme: 'wind',
     emoji: '🎙️',
     description: 'A RAG-enabled production-ready Voice Assistant using gemma-3-4b-it model, built for high-performance and seamless voice interaction.',
     tech: ['JavaScript', 'RAG', 'Voice AI', 'LLM'],
@@ -63,11 +68,13 @@ const projectsData = [
 
 const ProjectCard = ({ project, index }) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [flipComplete, setFlipComplete] = useState(false);
 
   const flipCard = (e) => {
     // Stop propagation so clicking the button inside doesn't trigger parent click
     if (e) e.stopPropagation();
     setIsFlipped(!isFlipped);
+    if (isFlipped) setFlipComplete(false); // reset instantly when flipping back
   };
 
   return (
@@ -85,6 +92,9 @@ const ProjectCard = ({ project, index }) => {
         initial={false}
         animate={{ rotateY: isFlipped ? 900 : 0 }} 
         transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }} // smooth coin-spin flip (2.5 spins)
+        onAnimationComplete={() => {
+          if (isFlipped) setFlipComplete(true);
+        }}
         style={{
           width: '100%',
           height: '100%', // Match container height perfectly
@@ -190,7 +200,7 @@ const ProjectCard = ({ project, index }) => {
               intensity: 0.25,
               blur: 12,
               padding: '2rem',
-              glassClassName: 'glass-projects',
+              glassClassName: `glass-projects theme-${project.theme}`,
               style: {
                 borderRadius: '28px',
                 flexDirection: 'column',
@@ -201,6 +211,7 @@ const ProjectCard = ({ project, index }) => {
               }
             }}
           >
+            <ElementalCanvas theme={project.theme} isActive={isFlipped} flipComplete={flipComplete} />
             <h3 style={{
               color: '#fff',
               marginBottom: '1rem',

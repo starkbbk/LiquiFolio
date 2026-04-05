@@ -220,3 +220,27 @@ a {
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
 }
+
+/* Elemental Card Core Theme Glows */
+@keyframes pulseGlow {
+  0% { box-shadow: inherit; opacity: 0.9; }
+  50% { box-shadow: inherit; opacity: 1; }
+  100% { box-shadow: inherit; opacity: 0.9; }
+}
+
+.theme-lightning {
+  box-shadow: 0 0 20px #00ffff, 0 0 40px #7b2fff, inset 0 0 20px rgba(0,255,255,0.1) !important;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+.theme-fire {
+  box-shadow: 0 0 20px #ff4500, 0 0 40px #ff8c00, inset 0 0 20px rgba(255,69,0,0.1) !important;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+.theme-water {
+  box-shadow: 0 0 20px #00bfff, 0 0 40px #1e90ff, inset 0 0 20px rgba(0,191,255,0.1) !important;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+.theme-wind {
+  box-shadow: 0 0 20px #e0e0e0, 0 0 40px #b0c4de, inset 0 0 20px rgba(255,255,255,0.1) !important;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
