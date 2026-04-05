@@ -1,5 +1,208 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import LiquidGlassWrapper from './LiquidGlassWrapper';
+import Matter from 'matter-js';
+
+const hexToRgb = (hex) => {
+  const r = parseInt(hex.slice(1,3), 16);
+  const g = parseInt(hex.slice(3,5), 16);
+  const b = parseInt(hex.slice(5,7), 16);
+  return `${r}, ${g}, ${b}`;
+};
+
+const SkillPhysicsCard = ({ category }) => {
+  const sceneRef = useRef(null);
+  const engineRef = useRef(null);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const elementsRef = useRef({});
+
+  // Establish bounds dynamically using ResizeObserver
+  useEffect(() => {
+    if (!sceneRef.current) return;
+    const observer = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        setDimensions({
+          width: entry.contentRect.width,
+          height: entry.contentRect.height
+        });
+      }
+    });
+    observer.observe(sceneRef.current);
+    
+    // Initial size
+    setDimensions({
+       width: sceneRef.current.clientWidth,
+       height: sceneRef.current.clientHeight
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Initialize and run Physics Engine when dimensions exist
+  useEffect(() => {
+    if (!sceneRef.current || dimensions.width === 0 || dimensions.height === 0) return;
+
+    const Engine = Matter.Engine,
+          Bodies = Matter.Bodies,
+          Composite = Matter.Composite,
+          Mouse = Matter.Mouse,
+          MouseConstraint = Matter.MouseConstraint,
+          Events = Matter.Events;
+
+    const engine = Engine.create();
+    engineRef.current = engine;
+    
+    // Zero gravity for fluid space anti-gravity effect
+    engine.gravity.y = 0; 
+    engine.gravity.x = 0;
+
+    const rgbColor = hexToRgb(category.color);
+    const cx = dimensions.width / 2;
+    const cy = dimensions.height / 2;
+
+    const walls = [
+      // Top
+      Bodies.rectangle(cx, -25, dimensions.width * 2, 50, { isStatic: true, render: { visible: false } }),
+      // Bottom
+      Bodies.rectangle(cx, dimensions.height + 25, dimensions.width * 2, 50, { isStatic: true, render: { visible: false } }),
+      // Left
+      Bodies.rectangle(-25, cy, 50, dimensions.height * 2, { isStatic: true, render: { visible: false } }),
+      // Right
+      Bodies.rectangle(dimensions.width + 25, cy, 50, dimensions.height * 2, { isStatic: true, render: { visible: false } })
+    ];
+
+    const bubbleBodies = category.skills.map((skill, index) => {
+       // Strings natively calculate custom scale bounds
+       const baseRadius = 40;
+       const dynamicRadius = baseRadius + (skill.length * 2.2);
+       
+       // Scatter slightly so they pop and collide randomly at start
+       const startX = cx + (Math.random() - 0.5) * (dimensions.width * 0.6);
+       const startY = cy + (Math.random() - 0.5) * (dimensions.height * 0.6);
+
+       return Bodies.circle(startX, startY, dynamicRadius, {
+          restitution: 0.9, // strong bounce back
+          frictionAir: 0.05, // minor air resistance so they drag in space
+          mass: dynamicRadius * 0.1, // larger -> heavier
+          plugin: {
+             skill: skill,
+             radius: dynamicRadius
+          }
+       });
+    });
+
+    Composite.add(engine.world, [...walls, ...bubbleBodies]);
+
+    // Attach native DOM interactions mapped to bounding bodies
+    const mouse = Mouse.create(sceneRef.current);
+    const mouseConstraint = MouseConstraint.create(engine, {
+      mouse: mouse,
+      constraint: {
+        stiffness: 0.2, // Elastic grab
+        render: { visible: false }
+      }
+    });
+
+    Composite.add(engine.world, mouseConstraint);
+
+    // Apply fluid continuous drifting
+    Events.on(engine, 'beforeUpdate', () => {
+       bubbleBodies.forEach(body => {
+          if (Math.random() > 0.94) {
+             const maxForce = 0.001 * body.mass;
+             Matter.Body.applyForce(body, body.position, {
+                 x: (Math.random() - 0.5) * maxForce,
+                 y: (Math.random() - 0.5) * maxForce
+             });
+          }
+       });
+    });
+
+    // Custom pure synchronized DOM translation loop avoiding React setStates
+    let animationFrame;
+    const renderLoop = () => {
+       // Fixed time-step
+       Engine.update(engine, 1000 / 60);
+
+       bubbleBodies.forEach(body => {
+          const domElement = elementsRef.current[body.plugin.skill];
+          if (domElement) {
+             const x = body.position.x - body.plugin.radius;
+             const y = body.position.y - body.plugin.radius;
+             domElement.style.transform = `translate(${x}px, ${y}px)`;
+          }
+       });
+
+       animationFrame = requestAnimationFrame(renderLoop);
+    };
+
+    renderLoop();
+
+    return () => {
+       cancelAnimationFrame(animationFrame);
+       Engine.clear(engine);
+       Mouse.clearSourceEvents(mouse);
+    };
+  }, [category, dimensions]);
+
+  return (
+    <div style={{ width: '100%', height: '400px', position: 'relative', overflow: 'hidden' }} ref={sceneRef}>
+      {category.skills.map((skill) => {
+         const baseRadius = 40;
+         const dynamicRadius = baseRadius + (skill.length * 2.2);
+         const diameter = dynamicRadius * 2;
+         const rgbColor = hexToRgb(category.color);
+         
+         return (
+            <div
+              key={skill}
+              ref={el => elementsRef.current[skill] = el}
+              className="physics-bubble"
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: `${diameter}px`,
+                height: `${diameter}px`,
+                borderRadius: '50%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                textAlign: 'center',
+                background: `rgba(${rgbColor}, 0.15)`,
+                boxShadow: `inset 0 0 20px rgba(${rgbColor}, 0.2), 0 4px 15px rgba(0,0,0,0.2), 0 0 10px rgba(${rgbColor}, 0.4)`,
+                border: `1px solid rgba(${rgbColor}, 0.4)`,
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                color: '#fff',
+                fontSize: `${Math.max(0.75, Math.min(1.1, diameter/100))}rem`,
+                fontWeight: '600',
+                padding: '10px',
+                userSelect: 'none',
+                cursor: 'grab',
+                pointerEvents: 'auto',
+                transition: 'box-shadow 0.3s ease, background 0.3s ease',
+                zIndex: 10 // sit above the glass
+              }}
+              onMouseEnter={(e) => {
+                 e.currentTarget.style.background = `rgba(${rgbColor}, 0.25)`;
+                 e.currentTarget.style.boxShadow = `inset 0 0 25px rgba(${rgbColor}, 0.4), 0 8px 25px rgba(0,0,0,0.3), 0 0 15px rgba(${rgbColor}, 0.6)`;
+                 e.currentTarget.style.transform = e.currentTarget.style.transform + ' scale(1.05)';
+              }}
+              onMouseLeave={(e) => {
+                 e.currentTarget.style.background = `rgba(${rgbColor}, 0.15)`;
+                 e.currentTarget.style.boxShadow = `inset 0 0 20px rgba(${rgbColor}, 0.2), 0 4px 15px rgba(0,0,0,0.2), 0 0 10px rgba(${rgbColor}, 0.4)`;
+                 // Scaling is removed organically down loop cycles via continuous translates, but just safe guard:
+              }}
+              onMouseDown={(e) => e.currentTarget.style.cursor = 'grabbing'}
+              onMouseUp={(e) => e.currentTarget.style.cursor = 'grab'}
+            >
+              <span style={{ pointerEvents: 'none', lineHeight: 1.2 }}>{skill}</span>
+            </div>
+         );
+      })}
+    </div>
+  );
+}
 
 const skillsData = [
   {
@@ -70,31 +273,16 @@ const Skills = () => {
             >
               <h3 style={{
                 color: category.color,
-                marginBottom: '1.5rem',
+                marginBottom: '0.5rem',
                 fontSize: '1.4rem',
-                fontWeight: '700'
+                fontWeight: '700',
+                position: 'relative',
+                zIndex: 20
               }}>
                 {category.category}
               </h3>
               
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                {category.skills.map(skill => (
-                  <div
-                    key={skill}
-                    style={{
-                      background: `rgba(${parseInt(category.color.slice(1,3), 16)}, ${parseInt(category.color.slice(3,5), 16)}, ${parseInt(category.color.slice(5,7), 16)}, 0.1)`,
-                      color: 'rgba(255, 255, 255, 0.9)',
-                      padding: '7px 16px',
-                      borderRadius: '20px',
-                      fontSize: '0.9rem',
-                      border: `1px solid rgba(${parseInt(category.color.slice(1,3), 16)}, ${parseInt(category.color.slice(3,5), 16)}, ${parseInt(category.color.slice(5,7), 16)}, 0.3)`,
-                      backdropFilter: 'blur(5px)',
-                    }}
-                  >
-                    {skill}
-                  </div>
-                ))}
-              </div>
+              <SkillPhysicsCard category={category} />
             </LiquidGlassWrapper>
           </div>
         ))}
