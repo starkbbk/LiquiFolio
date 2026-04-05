@@ -275,7 +275,14 @@ const Skills = () => {
         {skillsData.map((category, index) => (
           <div
             key={category.category}
-            style={{ width: '100%', display: 'flex', animation: `fadeIn 0.5s ease ${index * 0.1}s forwards`, opacity: 0 }}
+            style={{
+              width: '100%',
+              display: 'flex',
+              animation: `fadeIn 0.5s ease ${index * 0.1}s forwards`,
+              opacity: 0,
+              // Last card spans both columns when total count is odd
+              gridColumn: (index === skillsData.length - 1 && skillsData.length % 2 !== 0) ? 'span 2' : undefined
+            }}
           >
             <LiquidGlassWrapper
               glassProps={{

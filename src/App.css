@@ -325,7 +325,7 @@ a {
 
 @media (min-width: 1024px) {
   .skills-grid-layout {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
