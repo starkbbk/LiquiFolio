@@ -43,24 +43,14 @@ const LiquidGlassWrapper = ({ children, glassProps = {} }) => {
     boxSizing: 'border-box',
     padding,
     borderRadius: radius,
+    ...restStyles, // apply restStyles before overrides to guarantee overrides win
 
-    // Apple Liquid Glass style - highly transparent
-    background: `linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 100%)`,
-    
-    // Lower blur so we can see the background image shapes clearly through it
-    backdropFilter: `blur(12px) saturate(120%)`,
-    WebkitBackdropFilter: `blur(12px) saturate(120%)`,
-
-    // Soft drop shadow + inner bevel ring shadow
-    boxShadow: `
-      0 10px 30px 0 rgba(0, 0, 0, 0.15),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.15)
-    `,
-
-    // Asymmetric border for lighting effect (common in Apple style)
-    border: border || '1px solid rgba(255, 255, 255, 0.1)',
-    borderTop: '1px solid rgba(255, 255, 255, 0.4)',
-    borderLeft: '1px solid rgba(255, 255, 255, 0.3)',
+    // Unified Target Consistency Styles
+    background: 'rgba(255, 255, 255, 0.08)',
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    border: '1px solid rgba(255, 255, 255, 0.12)',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
 
     // Layout
     display,
@@ -73,8 +63,6 @@ const LiquidGlassWrapper = ({ children, glassProps = {} }) => {
 
     // Smooth interactive feel
     transition: 'box-shadow 0.3s ease, transform 0.3s ease',
-
-    ...restStyles,
   };
 
   return (
