@@ -387,7 +387,7 @@ const CatastropheEngine = () => {
       className="weather-overlay"
       style={{
         position: 'fixed',
-        top: 0, left: 0, width: '100vw', height: '100vh',
+        top: 0, left: 0, right: 0, bottom: 0, height: '100dvh',
         zIndex: -1, // Sits above MotionCanvas (-3) but below Cards
         pointerEvents: 'none',
         opacity: globalOpacity,
