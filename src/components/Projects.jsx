@@ -217,9 +217,14 @@ const ProjectCard = ({ project, index }) => {
             <div>
               <h3 style={{
                 color: '#fff',
-                marginBottom: '1rem',
+                marginBottom: '1.2rem',
                 fontSize: '1.4rem',
-                fontWeight: '700'
+                fontWeight: '700',
+                background: 'rgba(255, 255, 255, 0.05)',
+                padding: '10px 18px',
+                borderRadius: '12px',
+                display: 'inline-block',
+                border: '1px solid rgba(255, 255, 255, 0.08)'
               }}>
                 {project.emoji} {project.title.replace(/-/g, ' ')}
               </h3>
