@@ -229,18 +229,30 @@ a {
 }
 
 .theme-lightning {
+  background: rgba(30, 0, 80, 0.85) !important;
+  border: 2px solid #00ffff !important;
+  transition: all 0.5s ease !important;
   box-shadow: 0 0 20px #00ffff, 0 0 40px #7b2fff, inset 0 0 20px rgba(0,255,255,0.1) !important;
   animation: pulseGlow 2s ease-in-out infinite;
 }
 .theme-fire {
+  background: rgba(80, 20, 0, 0.85) !important;
+  border: 2px solid #ff4500 !important;
+  transition: all 0.5s ease !important;
   box-shadow: 0 0 20px #ff4500, 0 0 40px #ff8c00, inset 0 0 20px rgba(255,69,0,0.1) !important;
   animation: pulseGlow 2s ease-in-out infinite;
 }
 .theme-water {
+  background: rgba(0, 20, 60, 0.85) !important;
+  border: 2px solid #00bfff !important;
+  transition: all 0.5s ease !important;
   box-shadow: 0 0 20px #00bfff, 0 0 40px #1e90ff, inset 0 0 20px rgba(0,191,255,0.1) !important;
   animation: pulseGlow 2s ease-in-out infinite;
 }
 .theme-wind {
+  background: rgba(40, 30, 0, 0.85) !important;
+  border: 2px solid #c8a951 !important;
+  transition: all 0.5s ease !important;
   box-shadow: 0 0 20px #e0e0e0, 0 0 40px #b0c4de, inset 0 0 20px rgba(255,255,255,0.1) !important;
   animation: pulseGlow 2s ease-in-out infinite;
 }

@@ -137,53 +137,136 @@ class WaterFlood {
   init(w, h) {
     this.w = w; this.h = h;
     this.time = 0;
-    this.bubbles = Array.from({length: 150}, () => ({
-      x: Math.random()*w, y: Math.random()*h, s: Math.random()*5+2, vy: Math.random()*2+1
+    this.riseLevel = h; // Starts at bottom
+    this.targetLevel = h * 0.4; // Rises to 60% of screen height
+    
+    this.bubbles = Array.from({length: 60}, () => ({
+      x: Math.random()*w, y: Math.random()*h, s: Math.random()*4+1, vy: Math.random()*3+1
     }));
+    
+    this.splashes = Array.from({length: 30}, () => ({
+      x: Math.random()*w, y: Math.random()*h*0.3, vy: Math.random()*15+5, l: Math.random()*15+10
+    }));
+
+    this.fishes = Array.from({length: 8}, () => ({
+      x: Math.random()*w, y: h*0.5 + Math.random()*h*0.4, 
+      speed: (Math.random() < 0.5 ? 1 : -1) * (Math.random() * 2 + 1)
+    }));
+
+    this.caustics = Array.from({length: 15}, () => ({
+      x: Math.random()*w, y: h*0.5 + Math.random()*h*0.4,
+      r: Math.random()*150+50, a: Math.random()*Math.PI*2, s: Math.random()*0.02
+    }));
+
     this.waves = [
-      {a: 40, f: 0.003, s: 0.02, o: 0, c: 'rgba(0,105,148,0.4)', h: h*0.5},
-      {a: 60, f: 0.002, s: 0.03, o: 2, c: 'rgba(0,191,255,0.3)', h: h*0.6},
-      {a: 30, f: 0.005, s: 0.01, o: 4, c: 'rgba(0,31,63,0.6)', h: h*0.7}
+      {a: 20, f: 0.005, s: 0.02, o: 0, c: 'rgba(0,31,63,0.8)'},
+      {a: 30, f: 0.003, s: 0.03, o: 2, c: 'rgba(0,105,148,0.7)'},
+      {a: 45, f: 0.002, s: 0.04, o: 4, c: 'rgba(0,191,255,0.5)'},
+      {a: 15, f: 0.008, s: 0.05, o: 1, c: 'rgba(135,206,235,0.4)'}
     ];
-    this.ripples = [];
   }
+  
   render(ctx) {
     this.time++;
-    ctx.fillStyle = 'rgba(0, 26, 42, 0.2)';
-    ctx.fillRect(0, 0, this.w, this.h);
-
-    if(Math.random() < 0.05) {
-      this.ripples.push({x: Math.random()*this.w, y: Math.random()*this.h, r: 0, a: 1});
+    // Gradual rise
+    if (this.riseLevel > this.targetLevel) {
+      this.riseLevel -= (this.riseLevel - this.targetLevel) * 0.02;
     }
 
-    this.ripples.forEach(r => {
-      r.r += 2; r.a -= 0.02;
-      ctx.strokeStyle = `rgba(135,206,235,${r.a})`;
-      ctx.beginPath(); ctx.arc(r.x, r.y, r.r, 0, Math.PI*2); ctx.stroke();
-    });
-    this.ripples = this.ripples.filter(r => r.a > 0);
+    // Sky darkens
+    ctx.fillStyle = 'rgba(0, 5, 15, 0.3)';
+    ctx.fillRect(0, 0, this.w, this.h);
 
-    ctx.shadowBlur = 15;
+    // Rain splashes
+    ctx.strokeStyle = 'rgba(135, 206, 235, 0.4)';
+    ctx.lineWidth = 1.5;
+    this.splashes.forEach(d => {
+      d.y += d.vy;
+      if (d.y > this.riseLevel) {
+        d.y = -10; d.x = Math.random() * this.w;
+      }
+      ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y + d.l); ctx.stroke();
+    });
+
+    // Waves background
+    this.waves.forEach((w, i) => {
+      w.o += w.s;
+      // Slight vertical offset for layers
+      const waveBase = this.riseLevel + (i * 15);
+      
+      ctx.fillStyle = w.c;
+      ctx.beginPath();
+      ctx.moveTo(0, this.h);
+      
+      let wavePoints = [];
+      for(let x=0; x<=this.w + 20; x+=20) {
+        const y = waveBase + Math.sin(x*w.f + w.o)*w.a;
+        ctx.lineTo(x, y);
+        if (i === 3) wavePoints.push({x,y}); // Track top layer for foam
+      }
+      ctx.lineTo(this.w, this.h);
+      ctx.fill();
+
+      // Foam tips on top layer
+      if (i === 3) {
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        wavePoints.forEach((p, idx) => {
+          if (idx===0) ctx.moveTo(p.x, p.y);
+          else ctx.lineTo(p.x, p.y);
+        });
+        ctx.stroke();
+      }
+    });
+
+    // Submerged effects (only drawn below wave base)
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0, this.riseLevel - 50, this.w, this.h);
+    ctx.clip();
+
+    // Caustics
+    this.caustics.forEach(c => {
+      c.a += c.s;
+      c.y += Math.sin(c.a)*0.5;
+      ctx.fillStyle = `rgba(0, 255, 255, ${0.05 + Math.sin(c.a)*0.03})`;
+      ctx.beginPath(); ctx.arc(c.x + Math.cos(c.a)*50, c.y, c.r, 0, Math.PI*2); ctx.fill();
+    });
+
+    // Bubbles
+    ctx.shadowBlur = 10;
     ctx.shadowColor = '#00ffff';
     this.bubbles.forEach(b => {
       b.y -= b.vy; b.x += Math.sin(b.y*0.05 + this.time*0.05);
-      if(b.y < -10) { b.y = this.h+10; b.x = Math.random()*this.w; }
-      ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+      if(b.y < this.riseLevel) { b.y = this.h+10; b.x = Math.random()*this.w; }
+      ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+      ctx.lineWidth = 1;
       ctx.beginPath(); ctx.arc(b.x, b.y, b.s, 0, Math.PI*2); ctx.stroke();
     });
     ctx.shadowBlur = 0;
 
-    this.waves.forEach(w => {
-      w.o += w.s;
-      ctx.fillStyle = w.c;
+    // Fish
+    ctx.fillStyle = 'rgba(0, 15, 30, 0.8)';
+    this.fishes.forEach(f => {
+      f.x += f.speed;
+      f.y += Math.sin(f.x*0.02)*0.5;
+      if (f.x > this.w + 50) f.x = -50;
+      if (f.x < -50) f.x = this.w + 50;
+      
       ctx.beginPath();
-      ctx.moveTo(0, this.h);
-      for(let x=0; x<=this.w; x+=20) {
-        ctx.lineTo(x, w.h + Math.sin(x*w.f + w.o)*w.a);
-      }
-      ctx.lineTo(this.w, this.h);
+      ctx.ellipse(f.x, f.y, 15, 6, 0, 0, Math.PI*2);
+      ctx.fill();
+      // Tail
+      ctx.beginPath();
+      const tailX = f.speed > 0 ? f.x - 15 : f.x + 15;
+      ctx.moveTo(tailX, f.y);
+      ctx.lineTo(tailX + (f.speed > 0 ? -10 : 10), f.y - 5);
+      ctx.lineTo(tailX + (f.speed > 0 ? -10 : 10), f.y + 5);
       ctx.fill();
     });
+
+    ctx.restore();
   }
 }
 
