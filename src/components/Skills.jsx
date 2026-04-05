@@ -117,6 +117,29 @@ const SkillPhysicsCard = ({ category }) => {
        });
     });
 
+    // Scroll inertia physics
+    let lastScrollY = window.scrollY;
+    const handleScroll = () => {
+       const currentScrollY = window.scrollY;
+       const scrollDelta = currentScrollY - lastScrollY;
+       
+       if (Math.abs(scrollDelta) > 0) {
+          bubbleBodies.forEach(body => {
+             // Force is opposite to scroll direction matching inertia
+             const forceMagnitude = Math.abs(scrollDelta) * 0.00003 * body.mass;
+             const directionY = scrollDelta > 0 ? -1 : 1; 
+
+             Matter.Body.applyForce(body, body.position, {
+                 x: 0,
+                 y: forceMagnitude * directionY
+             });
+          });
+       }
+       lastScrollY = currentScrollY;
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
     // Custom pure synchronized DOM translation loop avoiding React setStates
     let animationFrame;
     const renderLoop = () => {
@@ -138,6 +161,7 @@ const SkillPhysicsCard = ({ category }) => {
     renderLoop();
 
     return () => {
+       window.removeEventListener('scroll', handleScroll);
        cancelAnimationFrame(animationFrame);
        Engine.clear(engine);
        Mouse.clearSourceEvents(mouse);
