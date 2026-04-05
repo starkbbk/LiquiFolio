@@ -303,12 +303,7 @@ const Projects = () => {
     <section id="projects" className="section-wrapper container">
       <h2 className="section-title gradient-text" style={{ fontSize: '3rem', marginBottom: '3rem' }}>Featured Projects</h2>
       
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))',
-        gap: '3rem',
-        alignItems: 'start'
-      }}>
+      <div className="projects-grid">
         {projectsData.map((project, index) => (
           <ProjectCard key={project.title} project={project} index={index} />
         ))}
