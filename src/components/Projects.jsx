@@ -111,6 +111,9 @@ const ProjectCard = ({ project, index }) => {
               style: {
                 borderRadius: '28px',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
+                background: 'rgba(255, 255, 255, 0.03)', // MORE TRANSLUCENT
+                backdropFilter: 'blur(6px)', // MORE TRANSLUCENT
+                WebkitBackdropFilter: 'blur(6px)',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 alignItems: 'flex-start',
@@ -193,6 +196,9 @@ const ProjectCard = ({ project, index }) => {
               style: {
                 borderRadius: '28px',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
+                background: 'rgba(255, 255, 255, 0.03)', // MORE TRANSLUCENT
+                backdropFilter: 'blur(6px)', // MORE TRANSLUCENT
+                WebkitBackdropFilter: 'blur(6px)',
                 flexDirection: 'column',
                 justifyContent: 'flex-start',
                 alignItems: 'flex-start',

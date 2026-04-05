@@ -26,6 +26,10 @@ const LiquidGlassWrapper = ({ children, glassProps = {} }) => {
     textAlign,
     maxWidth,
     margin,
+    background = 'rgba(255, 255, 255, 0.08)',
+    backdropFilter = 'blur(12px)',
+    WebkitBackdropFilter = 'blur(12px)',
+    boxShadow = '0 8px 32px rgba(0, 0, 0, 0.2)',
     ...restStyles
   } = style;
 
@@ -43,14 +47,13 @@ const LiquidGlassWrapper = ({ children, glassProps = {} }) => {
     boxSizing: 'border-box',
     padding,
     borderRadius: radius,
-    ...restStyles, // apply restStyles before overrides to guarantee overrides win
-
-    // Unified Target Consistency Styles
-    background: 'rgba(255, 255, 255, 0.08)',
-    backdropFilter: 'blur(12px)',
-    WebkitBackdropFilter: 'blur(12px)',
-    border: '1px solid rgba(255, 255, 255, 0.12)',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+    
+    // Core Unified Styles (can be overridden by parents)
+    background,
+    backdropFilter,
+    WebkitBackdropFilter,
+    border: border || '1px solid rgba(255, 255, 255, 0.12)',
+    boxShadow,
 
     // Layout
     display,
@@ -63,6 +66,7 @@ const LiquidGlassWrapper = ({ children, glassProps = {} }) => {
 
     // Smooth interactive feel
     transition: 'box-shadow 0.3s ease, transform 0.3s ease',
+    ...restStyles, // Restore restStyles mapping
   };
 
   return (

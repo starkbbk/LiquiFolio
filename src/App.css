@@ -196,6 +196,7 @@ a {
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
   align-items: start;
+  width: 100%; /* REQUIRED to prevent shrinking inside flex container */
 }
 
 @media (max-width: 768px) {
