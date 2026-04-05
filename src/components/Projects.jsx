@@ -73,8 +73,17 @@ const ProjectCard = ({ project, index }) => {
   const flipCard = (e) => {
     // Stop propagation so clicking the button inside doesn't trigger parent click
     if (e) e.stopPropagation();
-    setIsFlipped(!isFlipped);
-    if (isFlipped) setFlipComplete(false); // reset instantly when flipping back
+    
+    const newFlippedState = !isFlipped;
+    setIsFlipped(newFlippedState);
+    if (!newFlippedState) setFlipComplete(false); // reset instantly when flipping back
+    
+    // Broadcast Catastrophe Engine Signal globally
+    window.dispatchEvent(
+      new CustomEvent('triggerWeather', { 
+        detail: { theme: project.theme, active: newFlippedState } 
+      })
+    );
   };
 
   return (

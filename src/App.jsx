@@ -7,10 +7,12 @@ import Achievements from './components/Achievements';
 import Contact from './components/Contact';
 import Cursor from './components/Cursor';
 import MotionCanvas from './components/MotionCanvas';
+import CatastropheEngine from './components/CatastropheEngine';
 
 function App() {
   return (
     <>
+      <CatastropheEngine />
       <MotionCanvas />
 
       {/* Custom Mouse Cursor */}
