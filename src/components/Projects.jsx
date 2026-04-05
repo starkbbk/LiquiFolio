@@ -251,38 +251,38 @@ const ProjectCard = ({ project, index }) => {
                 ))}
               </div>
             </div>
-            <div style={{ marginTop: 'auto', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-              
-              {/* Blinking Arrow pointing down */}
+            {/* Blinking Arrow centered in the remaining available gap space */}
+            <div style={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', minHeight: '80px' }}>
               <div style={{ animation: 'bounceBlink 1.5s infinite ease-in-out' }}>
                 <svg width="32" height="48" viewBox="0 0 24 40" fill="none" stroke="#ec4899" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 2v34M20 28l-8 8-8-8"/>
                 </svg>
               </div>
+            </div>
 
-              {/* Action Button */}
-              <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '12px',
-                  color: '#fff',
-                  background: 'linear-gradient(135deg, rgba(236,72,153,0.2), rgba(168,85,247,0.2))',
-                  border: '1px solid rgba(236,72,153,0.3)',
-                  padding: '14px 24px',
-                  borderRadius: '20px',
-                  width: '100%',
-                  fontSize: '1.15rem',
-                  fontWeight: '700',
-                  boxShadow: '0 4px 20px rgba(236, 72, 153, 0.15)',
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ec4899" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.59-9.21L21.5 8"/>
-                </svg>
-                <span style={{ color: '#ec4899' }}>Click to Flip</span>
-              </div>
+            {/* Action Button anchored to bottom */}
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '12px',
+                color: '#fff',
+                background: 'linear-gradient(135deg, rgba(236,72,153,0.2), rgba(168,85,247,0.2))',
+                border: '1px solid rgba(236,72,153,0.3)',
+                padding: '14px 24px',
+                borderRadius: '20px',
+                width: '100%',
+                fontSize: '1.15rem',
+                fontWeight: '700',
+                boxShadow: '0 4px 20px rgba(236, 72, 153, 0.15)',
+                transition: 'all 0.3s ease',
+                marginTop: 'auto'
+              }}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ec4899" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.59-9.21L21.5 8"/>
+              </svg>
+              <span style={{ color: '#ec4899' }}>Click to Flip</span>
             </div>
           </LiquidGlassWrapper>
         </div>
