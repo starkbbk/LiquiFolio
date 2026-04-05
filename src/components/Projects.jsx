@@ -216,20 +216,27 @@ const ProjectCard = ({ project, index }) => {
             </div>
             
             <div style={{
-                display: 'inline-flex',
+                display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
-                color: '#ec4899', // prompt user to click
-                fontSize: '0.95rem',
+                justifyContent: 'center',
+                gap: '12px',
+                color: '#fff',
+                background: 'linear-gradient(135deg, rgba(236,72,153,0.2), rgba(168,85,247,0.2))',
+                border: '1px solid rgba(236,72,153,0.3)',
+                padding: '14px 24px',
+                borderRadius: '20px',
+                width: '100%',
+                fontSize: '1.15rem',
                 fontWeight: '700',
                 marginTop: 'auto',
-                alignSelf: 'flex-start'
+                boxShadow: '0 4px 20px rgba(236, 72, 153, 0.15)',
+                transition: 'all 0.3s ease'
               }}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ec4899" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.59-9.21L21.5 8"/>
               </svg>
-              Click to Flip
+              <span style={{ color: '#ec4899' }}>Click to Flip</span>
             </div>
           </LiquidGlassWrapper>
         </div>
