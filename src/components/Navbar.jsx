@@ -42,7 +42,7 @@ const Navbar = () => {
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
         }}>
-          SV
+          starkbbk
         </div>
         
         <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>

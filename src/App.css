@@ -29,7 +29,7 @@ body::before {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(5, 18, 40, 0.45); /* Cold blue tint to match icy forest */
+  background: rgba(5, 18, 40, 0.30); /* Lighter so background bleeds through glass cards */
   z-index: -2;
 }
 
@@ -161,9 +161,22 @@ a {
   margin-bottom: 3rem;
 }
 
-/* Glass wrapper base styling */
-.custom-glass-wrapper {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* Glass wrapper — liquid hover lift effect */
+.custom-glass-wrapper,
+.liquid-glass-card {
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.liquid-glass-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow:
+    0 16px 60px rgba(0, 0, 0, 0.3),
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.55),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.08),
+    inset 1px 0 1px rgba(255, 255, 255, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.12) !important;
 }
 
 @keyframes fadeIn {

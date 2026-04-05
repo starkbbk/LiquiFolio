@@ -36,7 +36,7 @@ const Hero = () => {
           }}>
             <img
               src={myPicture}
-              alt="Shivanand Verma"
+              alt="starkbbk"
               style={{
                 width: '100%',
                 height: '100%',
@@ -51,7 +51,7 @@ const Hero = () => {
             className="gradient-text"
             style={{ fontSize: '4.5rem', fontWeight: '800', marginBottom: '0.75rem' }}
           >
-            Shivanand Verma
+            starkbbk
           </motion.h1>
           
           <p style={{

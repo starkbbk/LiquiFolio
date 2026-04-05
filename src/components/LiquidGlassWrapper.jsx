@@ -1,11 +1,8 @@
 import React from 'react';
 
 /**
- * LiquidGlassWrapper
- * 
- * Renders a frosted glass card using pure CSS backdrop-filter.
- * This replaces the liquid-glass-react library wrapper which generated
- * buggy outer shimmer spans and white border artifacts.
+ * LiquidGlassWrapper — True liquid glassmorphism card
+ * Uses layered inset gradients + backdrop-filter for a premium glass look
  */
 const LiquidGlassWrapper = ({ children, glassProps = {} }) => {
   const {
@@ -13,6 +10,7 @@ const LiquidGlassWrapper = ({ children, glassProps = {} }) => {
     intensity = 0.3,
     blur = 10,
     style = {},
+    cornerRadius,
   } = glassProps;
 
   const {
@@ -23,7 +21,7 @@ const LiquidGlassWrapper = ({ children, glassProps = {} }) => {
     gap = '24px',
     width,
     height,
-    borderRadius = '28px',
+    borderRadius,
     border,
     textAlign,
     maxWidth,
@@ -31,36 +29,62 @@ const LiquidGlassWrapper = ({ children, glassProps = {} }) => {
     ...restStyles
   } = style;
 
+  const radius = cornerRadius
+    ? `${cornerRadius}px`
+    : borderRadius || '28px';
+
+  // True liquid glass style — very transparent, heavy blur, layered reflections
   const glassStyle = {
     position: 'relative',
     width: width || '100%',
     height: height || 'auto',
-    maxWidth: maxWidth,
-    margin: margin,
+    maxWidth,
+    margin,
     boxSizing: 'border-box',
     padding,
-    borderRadius,
-    border: border || '1px solid rgba(255, 255, 255, 0.15)',
-    backdropFilter: `blur(${blur * 3 + 12}px) saturate(180%)`,
-    WebkitBackdropFilter: `blur(${blur * 3 + 12}px) saturate(180%)`,
-    background: `rgba(255, 255, 255, ${intensity * 0.08})`,
+    borderRadius: radius,
+
+    // Apple Liquid Glass style
+    background: `linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 100%)`,
+    
+    // Smooth blur + saturation for the frosted look
+    backdropFilter: `blur(25px) saturate(160%)`,
+    WebkitBackdropFilter: `blur(25px) saturate(160%)`,
+
+    // Soft drop shadow + inner bevel ring shadow
     boxShadow: `
-      0 8px 32px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.05)
+      0 10px 30px 0 rgba(0, 0, 0, 0.15),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.15)
     `,
+
+    // Asymmetric border for lighting effect (common in Apple style)
+    border: border || '1px solid rgba(255, 255, 255, 0.1)',
+    borderTop: '1px solid rgba(255, 255, 255, 0.4)',
+    borderLeft: '1px solid rgba(255, 255, 255, 0.3)',
+
+    // Layout
     display,
     flexDirection,
     justifyContent,
     alignItems,
     gap,
     textAlign,
+    overflow: 'hidden',
+
+    // Smooth interactive feel
+    transition: 'box-shadow 0.3s ease, transform 0.3s ease',
+
     ...restStyles,
   };
 
   return (
-    <div style={glassStyle}>
-      {children}
+    <div style={glassStyle} className="liquid-glass-card">
+
+
+      {/* Content rendered above glass layers */}
+      <div style={{ position: 'relative', zIndex: 1, width: '100%', display, flexDirection, justifyContent, alignItems, gap, textAlign, height: height || 'auto' }}>
+        {children}
+      </div>
     </div>
   );
 };
