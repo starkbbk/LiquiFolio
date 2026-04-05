@@ -319,7 +319,7 @@ a {
 
 .skills-grid-layout {
   display: grid;
-  gap: 2rem;
+  gap: 24px;
   align-items: stretch;
 }
 
