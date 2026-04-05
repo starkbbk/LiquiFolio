@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import LiquidGlassWrapper from './LiquidGlassWrapper';
 import ElementalCanvas from './ElementalCanvas';
@@ -12,6 +12,7 @@ const projectsData = [
     description: 'A browser extension for applying high-end Liquid Glass UI effects to any web component with interactive rendering filters.',
     tech: ['JavaScript', 'HTML5', 'CSS3', 'Web APIs'],
     link: 'https://github.com/starkbbk/Web-UI-Transformer-Extension',
+    sound: '/sounds/lightning.mp3',
     features: [
       'Injects realistic glassmorphism dynamically',
       'Customizable blur and refraction levels',
@@ -27,6 +28,7 @@ const projectsData = [
     description: 'A full-stack AI-powered application that seamlessly scans and analyzes website technology stacks using OpenRouter API.',
     tech: ['TypeScript', 'React', 'Node.js', 'AI'],
     link: 'https://github.com/starkbbk/Tech-Stack-Analyzer',
+    sound: '/sounds/fire.mp3',
     features: [
       'Automatic technology stack detection',
       'AI-driven alternative suggestions',
@@ -42,6 +44,7 @@ const projectsData = [
     description: 'Python based Code Vulnerability Scanner that automatically detects and resolves vulnerabilities using intelligent static analysis.',
     tech: ['JavaScript', 'Python', 'AI', 'Security'],
     link: 'https://github.com/starkbbk/AI-Code-Vulnerability-Scanner',
+    sound: '/sounds/water.mp3',
     features: [
       'Static codebase analysis',
       'LLM integration to patch vulnerabilities automatically',
@@ -57,6 +60,7 @@ const projectsData = [
     description: 'A RAG-enabled production-ready Voice Assistant using gemma-3-4b-it model, built for high-performance and seamless voice interaction.',
     tech: ['JavaScript', 'RAG', 'Voice AI', 'LLM'],
     link: 'https://github.com/starkbbk/VoiceAI-Assistant',
+    sound: '/sounds/sand.mp3',
     features: [
       'Low latency voice-to-voice interaction',
       'RAG pipeline for specialized domain knowledge',
@@ -67,12 +71,27 @@ const projectsData = [
   }
 ];
 
+const currentAudioRef = { current: null }; // Module-level ref — shared across all cards
+
 const ProjectCard = ({ project, index }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [flipComplete, setFlipComplete] = useState(false);
   const [readmeContent, setReadmeContent] = useState('');
   const [loadingReadme, setLoadingReadme] = useState(false);
   const [readmeFailed, setReadmeFailed] = useState(false);
+
+  const playSound = (soundPath) => {
+    // Stop any currently playing audio first
+    if (currentAudioRef.current) {
+      currentAudioRef.current.pause();
+      currentAudioRef.current.currentTime = 0;
+    }
+    const audio = new Audio(soundPath);
+    audio.volume = 0.15;
+    audio.currentTime = 0;
+    audio.play().catch(() => {}); // silently catch autoplay policy errors
+    currentAudioRef.current = audio;
+  };
 
   useEffect(() => {
     if (isFlipped && !readmeContent && !loadingReadme && !readmeFailed) {
@@ -113,6 +132,9 @@ const ProjectCard = ({ project, index }) => {
     const newFlippedState = !isFlipped;
     setIsFlipped(newFlippedState);
     if (!newFlippedState) setFlipComplete(false); // reset instantly when flipping back
+
+    // Play the card's elemental sound effect
+    if (project.sound) playSound(project.sound);
     
     // Broadcast Catastrophe Engine Signal globally
     window.dispatchEvent(
