@@ -1,12 +1,159 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import LiquidGlassWrapper from './LiquidGlassWrapper';
 import myPicture from '../assets/myPicture.png';
 
+const skillsData = [
+  {
+    category: 'Languages',
+    skills: ['Java', 'Python', 'C++', 'SQL', 'JavaScript (ES6+)', 'TypeScript', 'PHP'],
+    color: '#3b82f6', // blue
+  },
+  {
+    category: 'Frameworks & Libraries',
+    skills: ['React Native', 'React.js', 'TensorFlow', 'Keras', 'Scikit-learn', 'Pandas', 'NumPy', 'Matplotlib'],
+    color: '#8b5cf6', // purple
+  },
+  {
+    category: 'Frontend & Mobile',
+    skills: ['HTML5', 'CSS3', 'Responsive Design', 'Cross-Platform Dev'],
+    color: '#ec4899', // pink
+  },
+  {
+    category: 'Backend & Databases',
+    skills: ['MySQL', 'RESTful APIs', 'API Integration', 'PHP'],
+    color: '#10b981', // green
+  },
+  {
+    category: 'Data & BI',
+    skills: ['Tableau', 'Advanced Excel', 'Data Cleaning', 'Data Visualization', 'Predictive Modeling'],
+    color: '#f59e0b', // amber
+  },
+  {
+    category: 'Tools & Practices',
+    skills: ['Git', 'GitHub', 'VS Code', 'Vercel', 'Render', 'CI/CD', 'Agile/Scrum', 'Testing', 'Debugging'],
+    color: '#06b6d4', // cyan
+  },
+  {
+    category: 'Core CS',
+    skills: ['Data Structures & Algorithms', 'OOP', 'DBMS', 'Operating Systems', 'Computer Networks', 'System Design'],
+    color: '#ef4444', // red
+  }
+];
+
+const allSkills = skillsData.flatMap(cat => cat.skills.map(skill => ({ skill, color: cat.color })));
+
+const hexToRgb = (hex) => {
+  const r = parseInt(hex.slice(1,3), 16);
+  const g = parseInt(hex.slice(3,5), 16);
+  const b = parseInt(hex.slice(5,7), 16);
+  return `${r}, ${g}, ${b}`;
+};
+
+const HeroFloatingSkills = () => {
+    const [scrollY, setScrollY] = useState(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrollY(window.scrollY);
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    // Generate random properties strictly once
+    const bubbles = useMemo(() => {
+        return allSkills.map((item, index) => {
+            const size = 60 + Math.random() * 80; // 60px to 140px
+            const top = 2 + Math.random() * 95; // 2% to 97%
+            const left = 2 + Math.random() * 95; // 2% to 97%
+            const duration = 20 + Math.random() * 30; // 20s to 50s
+            const delay = Math.random() * -40; // Random starting point of animation
+            const parallaxFactor = 0.15 + Math.random() * 0.35; // How much it shifts on scroll
+
+            // Random drift distances back and forth
+            const driftY = 20 + Math.random() * 50;
+            const driftX = 20 + Math.random() * 50;
+
+            return {
+                ...item,
+                id: index,
+                size,
+                top,
+                left,
+                duration,
+                delay,
+                parallaxFactor,
+                driftY,
+                driftX
+            };
+        });
+    }, []);
+
+    return (
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1, overflow: 'hidden' }}>
+            {bubbles.map(bubble => {
+                const rgbColor = hexToRgb(bubble.color);
+                // Shift up when scrolling down (parallax effect)
+                const transformY = -(scrollY * bubble.parallaxFactor);
+                
+                return (
+                    <div 
+                        key={bubble.id}
+                        style={{
+                            position: 'absolute',
+                            top: `${bubble.top}%`,
+                            left: `${bubble.left}%`,
+                            transform: `translate(-50%, calc(-50% + ${transformY}px))`,
+                            transition: 'transform 0.1s ease-out'
+                        }}
+                    >
+                        <motion.div
+                            animate={{
+                                y: [-bubble.driftY, bubble.driftY, -bubble.driftY],
+                                x: [-bubble.driftX, bubble.driftX, -bubble.driftX],
+                            }}
+                            transition={{
+                                duration: bubble.duration,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                                delay: bubble.delay
+                            }}
+                            style={{
+                                width: `${bubble.size}px`,
+                                height: `${bubble.size}px`,
+                                borderRadius: '50%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                textAlign: 'center',
+                                background: `rgba(${rgbColor}, 0.15)`,
+                                boxShadow: `inset 0 0 20px rgba(${rgbColor}, 0.2), 0 4px 15px rgba(0,0,0,0.1), 0 0 10px rgba(${rgbColor}, 0.3)`,
+                                border: `1px solid rgba(${rgbColor}, 0.4)`,
+                                backdropFilter: 'blur(5px)',
+                                WebkitBackdropFilter: 'blur(5px)',
+                                color: 'rgba(255, 255, 255, 0.9)',
+                                fontSize: `${Math.max(0.65, bubble.size / 100)}rem`,
+                                fontWeight: '600',
+                                padding: '8px',
+                            }}
+                        >
+                            <span style={{ lineHeight: 1.1 }}>{bubble.skill}</span>
+                        </motion.div>
+                    </div>
+                );
+            })}
+        </div>
+    );
+};
+
 const Hero = () => {
   return (
-    <section id="home" className="section-wrapper" style={{ alignItems: 'center' }}>
-      <div style={{ width: '100%', maxWidth: '960px', margin: '0 auto', opacity: 1, animation: 'fadeIn 1s ease' }}>
+    <section id="home" className="section-wrapper" style={{ alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
+      
+      <HeroFloatingSkills />
+      
+      <div style={{ width: '100%', maxWidth: '960px', margin: '0 auto', opacity: 1, animation: 'fadeIn 1s ease', position: 'relative', zIndex: 10 }}>
         <LiquidGlassWrapper
           glassProps={{
             intensity: 0.5,
@@ -49,7 +196,7 @@ const Hero = () => {
 
           <motion.h1 
             className="gradient-text hero-title"
-            style={{ fontSize: '4.5rem', fontWeight: '800', marginBottom: '0.75rem' }}
+            style={{ fontSize: '4.05rem', fontWeight: '800', marginBottom: '0.75rem' }}
           >
             Shivanand Verma
           </motion.h1>
