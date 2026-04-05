@@ -169,7 +169,7 @@ const SkillPhysicsCard = ({ category }) => {
   }, [category, dimensions]);
 
   return (
-    <div style={{ width: '100%', height: '460px', position: 'relative', overflow: 'hidden' }} ref={sceneRef}>
+    <div style={{ width: '100%', height: '400px', position: 'relative', overflow: 'hidden' }} ref={sceneRef}>
       {category.skills.map((skill) => {
          const baseRadius = 40;
          const dynamicRadius = baseRadius + (skill.length * 2.2);
@@ -268,7 +268,7 @@ const skillsData = [
 
 const Skills = () => {
   return (
-    <section id="skills" className="section-wrapper container">
+    <section id="skills" style={{ width: '100%', maxWidth: 'none', margin: '0', padding: '0 2rem' }} className="section-wrapper">
       <h2 className="section-title gradient-text" style={{ fontSize: '3rem', marginBottom: '3rem' }}>Technical Skills</h2>
       
       <div className="skills-grid-layout">
