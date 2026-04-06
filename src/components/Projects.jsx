@@ -94,9 +94,12 @@ const ProjectCard = ({ project, index }) => {
       currentAudioRef.current.currentTime = 0;
     }
     
+    // Mobile pe 10% volume, desktop pe 15%
+    const isMobile = window.innerWidth <= 768;
+    
     console.log(`[Audio] Attempting to play: ${soundPath}`);
     const audio = new Audio(soundPath);
-    audio.volume = 0.15;
+    audio.volume = isMobile ? 0.10 : 0.15;
     audio.currentTime = 0;
     audio.play()
       .then(() => console.log(`[Audio] Playing: ${soundPath}`))
@@ -166,6 +169,8 @@ const ProjectCard = ({ project, index }) => {
     );
   };
 
+  const isMobileView = window.innerWidth <= 768;
+
   return (
     <div 
       style={{ 
@@ -173,7 +178,7 @@ const ProjectCard = ({ project, index }) => {
         animation: `fadeIn 0.5s ease ${index * 0.1}s forwards`, 
         opacity: 0,
         perspective: '1200px', // Crucial for 3D flip effect
-        height: '460px' // Fixed height so absolute children don't collapse the layout
+        height: isMobileView ? '420px' : '460px' // Mobile par thoda kam height
       }}
     >
       <motion.div
@@ -245,7 +250,7 @@ const ProjectCard = ({ project, index }) => {
                 {project.description}
               </p>
               
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '2rem' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: isMobileView ? '1rem' : '2rem' }}>
                 {project.tech.map(tech => (
                   <div
                     key={tech}
@@ -264,7 +269,7 @@ const ProjectCard = ({ project, index }) => {
               </div>
             </div>
             {/* Blinking Arrow centered in the remaining available gap space */}
-            <div style={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', minHeight: '80px' }}>
+            <div style={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', minHeight: isMobileView ? '30px' : '80px', maxHeight: isMobileView ? '50px' : 'none' }}>
               <div style={{ animation: 'bounceBlink 1.5s infinite ease-in-out' }}>
                 <svg width="32" height="48" viewBox="0 0 24 40" fill="none" stroke="#ec4899" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 2v34M20 28l-8 8-8-8"/>
@@ -281,7 +286,7 @@ const ProjectCard = ({ project, index }) => {
                 color: '#fff',
                 background: 'linear-gradient(135deg, rgba(236,72,153,0.2), rgba(168,85,247,0.2))',
                 border: '1px solid rgba(236,72,153,0.3)',
-                padding: '14px 24px',
+                padding: isMobileView ? '12px 20px' : '14px 24px',
                 borderRadius: '20px',
                 width: '100%',
                 fontSize: '1.15rem',

@@ -305,7 +305,7 @@ a {
 
   /* Projects */
   .projects-grid { grid-template-columns: 1fr !important; }
-  .mobile-glass-padding { padding: 1.5rem !important; }
+  .mobile-glass-padding { padding: 1.25rem !important; }
   
   /* Contact */
   .contact-buttons a { width: 100% !important; justify-content: center !important; }
