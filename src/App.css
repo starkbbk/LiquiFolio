@@ -256,10 +256,10 @@ a {
   animation: pulseGlow 2s ease-in-out infinite;
 }
 .theme-wind {
-  background: rgba(40, 30, 0, 0.85) !important;
+  background: rgba(40, 28, 0, 0.85) !important;
   border: 2px solid #c8a951 !important;
   transition: all 0.5s ease !important;
-  box-shadow: 0 0 20px #e0e0e0, 0 0 40px #b0c4de, inset 0 0 20px rgba(255,255,255,0.1) !important;
+  box-shadow: 0 0 20px #c8a951, 0 0 45px rgba(200, 169, 81, 0.5), inset 0 0 20px rgba(200, 169, 81, 0.08) !important;
   animation: pulseGlow 2s ease-in-out infinite;
 }
 

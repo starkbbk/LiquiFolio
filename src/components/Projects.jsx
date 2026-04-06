@@ -77,7 +77,7 @@ const themeColors = {
   lightning: { bg: 'rgba(168, 85, 247, 0.15)', border: 'rgba(168, 85, 247, 0.35)' },
   fire:      { bg: 'rgba(239, 68, 68, 0.15)',  border: 'rgba(239, 68, 68, 0.35)' },
   water:     { bg: 'rgba(6, 182, 212, 0.15)',  border: 'rgba(6, 182, 212, 0.35)' },
-  wind:      { bg: 'rgba(16, 185, 129, 0.15)', border: 'rgba(16, 185, 129, 0.35)' }
+  wind:      { bg: 'rgba(200, 169, 81, 0.15)', border: 'rgba(200, 169, 81, 0.40)' }  // Gold
 };
 
 const ProjectCard = ({ project, index }) => {
