@@ -307,9 +307,9 @@ const ProjectCard = ({ project, index }) => {
           transform: 'translateZ(1px)',
           WebkitTransform: 'translateZ(1px)',
           height: '100%',
-          backgroundColor: 'rgba(255, 255, 255, 0.03)', // glassmorphism translucent
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
+          backgroundColor: 'rgba(10, 15, 30, 0.4)', // highly transparent dark glass
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
           borderRadius: '24px',
           padding: isMobileView ? '2rem 1.5rem' : '2.5rem 2rem',
           display: 'flex',
@@ -318,15 +318,15 @@ const ProjectCard = ({ project, index }) => {
           justifyContent: 'flex-start',
           textAlign: 'center',
           border: '1px solid rgba(255, 255, 255, 0.05)',
-          borderBottom: `6px solid ${neonGlow}`,
-          boxShadow: `0 25px 50px -5px ${neonGlow}80, inset 0 -20px 40px -15px ${neonGlow}70, 0 0 20px ${neonGlow}50`,
+          borderBottom: `3px solid ${neonGlow}`,
+          boxShadow: `0 20px 30px -10px ${neonGlow}80`, // glow ONLY at the bottom
           boxSizing: 'border-box'
         }}>
           {/* Big Emoji / Icon */}
           <div style={{
             fontSize: '3.5rem',
             marginBottom: '1.5rem',
-            filter: `drop-shadow(0 0 20px ${neonGlow}90)`
+            filter: `drop-shadow(0 10px 15px ${neonGlow}60)` // glow pointing down
           }}>
             {project.emoji}
           </div>
