@@ -319,14 +319,24 @@ const CatastropheEngine = () => {
     lightning: 'box-shadow: inset 0 0 150px rgba(0, 255, 255, 0.3)',
     fire: 'box-shadow: inset 0 0 150px rgba(255, 69, 0, 0.5)',
     water: 'box-shadow: inset 0 0 150px rgba(0, 191, 255, 0.4)',
-    wind: 'box-shadow: inset 0 0 150px rgba(200, 169, 81, 0.4)'
+    wind: 'box-shadow: inset 0 0 150px rgba(200, 169, 81, 0.4)',
+    earthquake: 'box-shadow: inset 0 0 150px rgba(139, 69, 19, 0.4)',
+    tornado: 'box-shadow: inset 0 0 150px rgba(169, 169, 169, 0.4)',
+    volcano: 'box-shadow: inset 0 0 150px rgba(255, 69, 0, 0.5)',
+    blizzard: 'box-shadow: inset 0 0 150px rgba(224, 255, 255, 0.4)',
+    meteor: 'box-shadow: inset 0 0 150px rgba(255, 20, 147, 0.4)'
   };
   
   const bgColors = {
     lightning: 'rgba(10, 10, 26, 0.85)',
     fire: 'rgba(26, 5, 0, 0.85)',
     water: 'rgba(0, 26, 42, 0.85)',
-    wind: 'rgba(26, 21, 0, 0.85)'
+    wind: 'rgba(26, 21, 0, 0.85)',
+    earthquake: 'rgba(20, 10, 5, 0.85)',
+    tornado: 'rgba(15, 15, 15, 0.85)',
+    volcano: 'rgba(25, 5, 0, 0.85)',
+    blizzard: 'rgba(0, 15, 25, 0.85)',
+    meteor: 'rgba(20, 0, 15, 0.85)'
   };
 
   useEffect(() => {
