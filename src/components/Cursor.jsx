@@ -2,6 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 const Cursor = () => {
+  // Don't render on touch/mobile devices
+  const isTouchDevice = typeof window !== 'undefined' && 
+    (window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768);
+  
+  if (isTouchDevice) return null;
   const [mousePosition, setMousePosition] = useState({
     x: -100,
     y: -100,
