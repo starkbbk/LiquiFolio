@@ -22,7 +22,7 @@ const Hero = () => {
     const ctx = canvas.getContext('2d');
     let animationId;
     const lasers = [];
-    const shipColors = ['#0284c7', '#2563eb', '#059669', '#ea580c', '#3b82f6', '#0ea5e9', '#555', '#f59e0b', '#10b981', '#f97316', '#db2777', '#f1502f', '#764abc', '#f24e1e'];
+    const shipColors = ['#00599C', '#3776AB', '#ED8B00', '#F7DF1E', '#61DAFB', '#000000', '#339933', '#009688', '#2496ED', '#47A248', '#336791', '#DC382D', '#06B6D4', '#F05032'];
 
     const shipConfigs = [
       { angle: 0, radius: 0.38, speed: 0.18 },
@@ -331,20 +331,20 @@ const Hero = () => {
           {/* Orbiting Spaceship Skills */}
           <div ref={shipContainerRef} style={{ position: 'absolute', inset: 0, zIndex: 20, pointerEvents: 'none' }}>
             {[
-              { name: 'React', bg: '#0284c7' },
-              { name: 'Python', bg: '#2563eb' },
-              { name: 'Node.js', bg: '#059669' },
-              { name: 'AI/ML', bg: '#ea580c' },
-              { name: 'TypeScript', bg: '#3b82f6' },
-              { name: 'Docker', bg: '#0ea5e9' },
-              { name: 'Next.js', bg: '#555' },
-              { name: 'TensorFlow', bg: '#f59e0b' },
-              { name: 'MongoDB', bg: '#10b981' },
-              { name: 'AWS', bg: '#f97316' },
-              { name: 'GraphQL', bg: '#db2777' },
-              { name: 'Git', bg: '#f1502f' },
-              { name: 'Redux', bg: '#764abc' },
-              { name: 'Figma', bg: '#f24e1e' }
+              { name: 'C++', bg: '#00599C' },
+              { name: 'Python', bg: '#3776AB' },
+              { name: 'Java', bg: '#ED8B00' },
+              { name: 'JavaScript', bg: '#F7DF1E' },
+              { name: 'React', bg: '#61DAFB' },
+              { name: 'Next.js', bg: '#000000' },
+              { name: 'Node.js', bg: '#339933' },
+              { name: 'FastAPI', bg: '#009688' },
+              { name: 'Docker', bg: '#2496ED' },
+              { name: 'MongoDB', bg: '#47A248' },
+              { name: 'PostgreSQL', bg: '#336791' },
+              { name: 'Redis', bg: '#DC382D' },
+              { name: 'Tailwind', bg: '#06B6D4' },
+              { name: 'Git', bg: '#F05032' }
             ].map((ship) => (
               <div
                 key={ship.name}
