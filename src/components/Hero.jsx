@@ -4,6 +4,7 @@ import myPicture from '../assets/myPicture.png';
 
 const Hero = () => {
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 968);
+  const [isHoveringAvatar, setIsHoveringAvatar] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobileView(window.innerWidth <= 968);
@@ -183,32 +184,74 @@ const Hero = () => {
           </div>
 
           {/* Floating Skill Icons on Orbits */}
-          <motion.div animate={{ y: [0, -15, 0], rotate: [-10, -10, -10] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }} style={{ position: 'absolute', top: '20%', left: '10%', background: '#0284c7', padding: '12px 18px', borderRadius: '12px', zIndex: 5, boxShadow: '0 10px 20px rgba(2,132,199,0.3)', color: '#fff', fontWeight: 'bold', fontSize: '1.2rem' }}>
-            React
-          </motion.div>
-          
-          <motion.div animate={{ y: [0, 15, 0], rotate: [15, 15, 15] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }} style={{ position: 'absolute', top: '30%', right: '5%', background: '#059669', padding: '12px 18px', borderRadius: '12px', zIndex: 5, boxShadow: '0 10px 20px rgba(5,150,105,0.3)', color: '#fff', fontWeight: 'bold', fontSize: '1.2rem' }}>
-            Node.js
-          </motion.div>
-
-          <motion.div animate={{ y: [0, -10, 0], rotate: [-5, -5, -5] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 2 }} style={{ position: 'absolute', bottom: '25%', left: '15%', background: '#eab308', padding: '12px 18px', borderRadius: '12px', zIndex: 5, boxShadow: '0 10px 20px rgba(234,179,8,0.3)', color: '#fff', fontWeight: 'bold', fontSize: '1.2rem' }}>
-            JS
-          </motion.div>
-
-          <motion.div animate={{ y: [0, 20, 0], rotate: [10, 10, 10] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }} style={{ position: 'absolute', bottom: '15%', right: '20%', background: '#ea580c', padding: '12px 18px', borderRadius: '12px', zIndex: 5, boxShadow: '0 10px 20px rgba(234,88,12,0.3)', color: '#fff', fontWeight: 'bold', fontSize: '1.2rem' }}>
-            AI/ML
-          </motion.div>
+          {[
+            // Primary (Always visible)
+            { name: 'React', bg: '#0284c7', top: '20%', left: '10%', delay: 0, isPrimary: true, rotate: -10 },
+            { name: 'Node.js', bg: '#059669', top: '30%', right: '5%', delay: 1, isPrimary: true, rotate: 15 },
+            { name: 'JS', bg: '#eab308', bottom: '25%', left: '15%', delay: 2, isPrimary: true, rotate: -5 },
+            { name: 'AI/ML', bg: '#ea580c', bottom: '15%', right: '20%', delay: 0.5, isPrimary: true, rotate: 10 },
+            // Secondary (Visible on hover)
+            { name: 'Python', bg: '#2563eb', top: '5%', right: '35%', delay: 0.2, rotate: -15 },
+            { name: 'TensorFlow', bg: '#f59e0b', bottom: '5%', left: '35%', delay: 0.4, rotate: 12 },
+            { name: 'TypeScript', bg: '#3b82f6', top: '45%', left: '-5%', delay: 0.6, rotate: -8 },
+            { name: 'Docker', bg: '#0ea5e9', top: '50%', right: '-5%', delay: 0.8, rotate: 20 },
+            { name: 'MongoDB', bg: '#10b981', bottom: '45%', right: '-10%', delay: 0.3, rotate: -25 },
+            { name: 'AWS', bg: '#f97316', bottom: '40%', left: '-10%', delay: 0.7, rotate: 5 },
+            { name: 'GraphQL', bg: '#db2777', top: '10%', left: '40%', delay: 0.5, rotate: 22 },
+            { name: 'Next.js', bg: '#333333', bottom: '10%', right: '40%', delay: 0.9, rotate: -18 }
+          ].map((skill, idx) => {
+            const isVisible = skill.isPrimary || isHoveringAvatar;
+            return (
+              <motion.div
+                key={idx}
+                initial={{ opacity: skill.isPrimary ? 1 : 0, scale: skill.isPrimary ? 1 : 0 }}
+                animate={{ 
+                  y: isVisible ? [0, idx % 2 === 0 ? -15 : 15, 0] : 0, 
+                  rotate: isVisible ? [skill.rotate, skill.rotate + 5, skill.rotate] : skill.rotate,
+                  opacity: isVisible ? 1 : 0,
+                  scale: isVisible ? 1 : 0.5
+                }}
+                transition={{ 
+                  y: { duration: 4 + (idx % 3), repeat: Infinity, ease: 'easeInOut', delay: skill.delay },
+                  rotate: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
+                  opacity: { duration: 0.4 },
+                  scale: { type: "spring", stiffness: 200, damping: 15 }
+                }}
+                style={{ 
+                  position: 'absolute', 
+                  top: skill.top, 
+                  bottom: skill.bottom, 
+                  left: skill.left, 
+                  right: skill.right, 
+                  background: skill.bg, 
+                  padding: '12px 18px', 
+                  borderRadius: '12px', 
+                  zIndex: skill.isPrimary ? 5 : 4, 
+                  boxShadow: \`0 10px 20px \${skill.bg}50\`, 
+                  color: '#fff', 
+                  fontWeight: 'bold', 
+                  fontSize: '1.2rem',
+                  pointerEvents: 'none'
+                }}
+              >
+                {skill.name}
+              </motion.div>
+            );
+          })}
 
           {/* Main Avatar */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
+            onMouseEnter={() => setIsHoveringAvatar(true)}
+            onMouseLeave={() => setIsHoveringAvatar(false)}
             style={{
               position: 'relative',
               width: isMobileView ? '320px' : '480px',
               height: isMobileView ? '320px' : '480px',
-              zIndex: 2
+              zIndex: 10,
+              cursor: 'crosshair'
             }}
           >
             <div style={{
