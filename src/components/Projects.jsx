@@ -255,6 +255,8 @@ const ProjectCard = ({ project, index }) => {
   };
 
   const isMobileView = window.innerWidth <= 768;
+  const neonColors = ['#00f0ff', '#ff00aa', '#bfff00'];
+  const neonGlow = neonColors[index % neonColors.length];
 
   return (
     <div 
@@ -297,17 +299,21 @@ const ProjectCard = ({ project, index }) => {
         }}>
           <LiquidGlassWrapper
             glassProps={{
-              intensity: 0.25,
-              blur: 12,
+              intensity: 0.05, // Much darker for neon pop
+              blur: 16,
               padding: isMobileView ? '1.2rem' : '1.4rem',
               glassClassName: 'glass-projects mobile-glass-padding',
               style: {
-                borderRadius: '28px',
+                borderRadius: '24px',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 alignItems: 'flex-start',
                 height: '100%',
-                boxSizing: 'border-box'
+                boxSizing: 'border-box',
+                backgroundColor: 'rgba(5, 10, 20, 0.7)',
+                border: '1px solid rgba(255, 255, 255, 0.05)',
+                borderBottom: `4px solid ${neonGlow}`,
+                boxShadow: `0 15px 35px -5px ${neonGlow}40, inset 0 -10px 20px -10px ${neonGlow}30`
               }
             }}
           >

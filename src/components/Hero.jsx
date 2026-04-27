@@ -248,6 +248,18 @@ const Hero = () => {
 
         </div>
       </div>
+
+      {/* Gradient fade at bottom to blend into Projects section */}
+      <div style={{
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        width: '100%',
+        height: '200px',
+        background: 'linear-gradient(to bottom, transparent 0%, #0a1020 100%)',
+        zIndex: 5,
+        pointerEvents: 'none'
+      }} />
     </section>
   );
 };
