@@ -295,104 +295,68 @@ const ProjectCard = ({ project, index }) => {
           WebkitBackfaceVisibility: 'hidden',
           transform: 'translateZ(1px)',
           WebkitTransform: 'translateZ(1px)',
-          height: '100%'
+          height: '100%',
+          backgroundColor: '#050a15', // very dark solid
+          borderRadius: '24px',
+          padding: isMobileView ? '2rem 1.5rem' : '2.5rem 2rem',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          textAlign: 'center',
+          border: '1px solid rgba(255, 255, 255, 0.03)',
+          borderBottom: `6px solid ${neonGlow}`,
+          boxShadow: `0 20px 40px -10px ${neonGlow}50, inset 0 -15px 30px -15px ${neonGlow}40`,
+          boxSizing: 'border-box'
         }}>
-          <LiquidGlassWrapper
-            glassProps={{
-              intensity: 0.05, // Much darker for neon pop
-              blur: 16,
-              padding: isMobileView ? '1.2rem' : '1.4rem',
-              glassClassName: 'glass-projects mobile-glass-padding',
-              style: {
-                borderRadius: '24px',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                height: '100%',
-                boxSizing: 'border-box',
-                backgroundColor: 'rgba(5, 10, 20, 0.7)',
-                border: '1px solid rgba(255, 255, 255, 0.05)',
-                borderBottom: `4px solid ${neonGlow}`,
-                boxShadow: `0 15px 35px -5px ${neonGlow}40, inset 0 -10px 20px -10px ${neonGlow}30`
-              }
-            }}
-          >
-            <div>
-              <h3 style={{
-                color: '#fff',
-                marginBottom: '1rem',
-                fontSize: '1.3rem',
-                fontWeight: '700',
-                background: 'rgba(255, 255, 255, 0.05)',
-                padding: '8px 14px',
-                borderRadius: '12px',
-                display: 'inline-block',
-                border: '1px solid rgba(255, 255, 255, 0.08)'
-              }}>
-                {project.emoji} {project.title.replace(/-/g, ' ')}
-              </h3>
-              
-              <p style={{
-                color: 'rgba(255, 255, 255, 0.7)',
-                fontSize: '0.9rem',
-                lineHeight: '1.5',
-                marginBottom: '1rem'
-              }}>
-                {project.description}
-              </p>
-              
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: isMobileView ? '0.8rem' : '1rem' }}>
-                {project.tech.map(tech => (
-                  <div
-                    key={tech}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      color: '#a855f7',
-                      padding: '4px 10px',
-                      borderRadius: '6px',
-                      fontSize: '0.75rem',
-                      fontWeight: '600'
-                    }}
-                  >
-                    {tech}
-                  </div>
-                ))}
-              </div>
-            </div>
-            {/* Blinking Arrow centered in the remaining available gap space */}
-            <div style={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', minHeight: isMobileView ? '20px' : '40px', maxHeight: isMobileView ? '40px' : 'none' }}>
-              <div style={{ animation: 'bounceBlink 1.5s infinite ease-in-out' }}>
-                <svg width="24" height="36" viewBox="0 0 24 40" fill="none" stroke="#ec4899" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2v34M20 28l-8 8-8-8"/>
-                </svg>
-              </div>
-            </div>
+          {/* Big Emoji / Icon */}
+          <div style={{
+            fontSize: '3.5rem',
+            marginBottom: '1.5rem',
+            filter: `drop-shadow(0 0 15px ${neonGlow}60)`
+          }}>
+            {project.emoji}
+          </div>
 
-            {/* Action Button anchored to bottom */}
-            <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '12px',
-                color: '#fff',
-                background: 'linear-gradient(135deg, rgba(236,72,153,0.2), rgba(168,85,247,0.2))',
-                border: '1px solid rgba(236,72,153,0.3)',
-                padding: isMobileView ? '10px 16px' : '12px 20px',
-                borderRadius: '20px',
-                width: '100%',
-                fontSize: '1rem',
-                fontWeight: '700',
-                boxShadow: '0 4px 20px rgba(236, 72, 153, 0.15)',
-                transition: 'all 0.3s ease',
-                marginTop: 'auto'
-              }}
-            >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ec4899" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.59-9.21L21.5 8"/>
-              </svg>
-              <span style={{ color: '#ec4899' }}>Click to Flip</span>
-            </div>
-          </LiquidGlassWrapper>
+          <h3 style={{
+            color: '#fff',
+            marginBottom: '1.2rem',
+            fontSize: '1.6rem',
+            fontWeight: '600',
+            letterSpacing: '0.5px'
+          }}>
+            {project.title.replace(/-/g, ' ')}
+          </h3>
+          
+          <p style={{
+            color: 'rgba(255, 255, 255, 0.65)',
+            fontSize: '0.95rem',
+            lineHeight: '1.6',
+            marginBottom: 'auto' // push the rest down
+          }}>
+            {project.description}
+          </p>
+
+          <div style={{ 
+            marginTop: '2rem', 
+            color: neonGlow, 
+            fontSize: '0.95rem', 
+            fontWeight: '600', 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '8px', 
+            opacity: 0.9,
+            padding: '10px 20px',
+            borderRadius: '20px',
+            background: `rgba(255, 255, 255, 0.05)`,
+            border: `1px solid ${neonGlow}40`,
+            transition: 'all 0.3s ease'
+          }}>
+             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+               <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.59-9.21L21.5 8"/>
+             </svg>
+             Click to Flip
+          </div>
         </div>
 
         {/* BACK FACE */}
