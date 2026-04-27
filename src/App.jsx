@@ -12,17 +12,36 @@ function App() {
   const blobRef = useRef(null);
 
   useEffect(() => {
+    let fadeTimer = null;
+
     const handleScroll = () => {
       if (!blobRef.current) return;
       const scrollY = window.scrollY;
       const maxScroll = document.body.scrollHeight - window.innerHeight;
       const scrollPercent = scrollY / maxScroll;
-      // Full 360° hue rotation as you scroll through the page
       const hue = scrollPercent * 360;
+
+      // Light up blobs on scroll
+      const blobs = blobRef.current.querySelectorAll('.blob');
+      blobs.forEach(blob => {
+        blob.style.opacity = '0.4';
+      });
       blobRef.current.style.filter = `hue-rotate(${hue}deg)`;
+
+      // Fade back to dark after scrolling stops
+      clearTimeout(fadeTimer);
+      fadeTimer = setTimeout(() => {
+        blobs.forEach(blob => {
+          blob.style.opacity = '0.05';
+        });
+      }, 600);
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(fadeTimer);
+    };
   }, []);
   return (
     <>

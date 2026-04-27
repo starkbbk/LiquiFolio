@@ -82,9 +82,10 @@ a {
 .blob {
   position: absolute;
   filter: blur(120px);
-  opacity: 0.35;
+  opacity: 0.05;
   animation: move-blobs 15s infinite alternate ease-in-out;
   border-radius: 50%;
+  transition: opacity 0.8s ease, filter 0.8s ease;
 }
 
 .blob-1 {
