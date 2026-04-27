@@ -263,7 +263,7 @@ const ProjectCard = ({ project, index }) => {
         animation: `fadeIn 0.5s ease ${index * 0.1}s forwards`, 
         opacity: 0,
         perspective: '1200px', // Crucial for 3D flip effect
-        height: isMobileView ? '460px' : '580px' // Increased height for 3-column layout
+        height: isMobileView ? '390px' : '490px' // Reduced height by 15%
       }}
     >
       <motion.div
@@ -299,7 +299,7 @@ const ProjectCard = ({ project, index }) => {
             glassProps={{
               intensity: 0.25,
               blur: 12,
-              padding: isMobileView ? '1.5rem' : '1.8rem',
+              padding: isMobileView ? '1.2rem' : '1.4rem',
               glassClassName: 'glass-projects mobile-glass-padding',
               style: {
                 borderRadius: '28px',
@@ -314,11 +314,11 @@ const ProjectCard = ({ project, index }) => {
             <div>
               <h3 style={{
                 color: '#fff',
-                marginBottom: '1.2rem',
-                fontSize: '1.4rem',
+                marginBottom: '1rem',
+                fontSize: '1.3rem',
                 fontWeight: '700',
                 background: 'rgba(255, 255, 255, 0.05)',
-                padding: '10px 18px',
+                padding: '8px 14px',
                 borderRadius: '12px',
                 display: 'inline-block',
                 border: '1px solid rgba(255, 255, 255, 0.08)'
@@ -328,23 +328,23 @@ const ProjectCard = ({ project, index }) => {
               
               <p style={{
                 color: 'rgba(255, 255, 255, 0.7)',
-                fontSize: '0.95rem',
-                lineHeight: '1.6',
-                marginBottom: '1.5rem'
+                fontSize: '0.9rem',
+                lineHeight: '1.5',
+                marginBottom: '1rem'
               }}>
                 {project.description}
               </p>
               
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: isMobileView ? '1rem' : '2rem' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: isMobileView ? '0.8rem' : '1rem' }}>
                 {project.tech.map(tech => (
                   <div
                     key={tech}
                     style={{
                       background: 'rgba(255, 255, 255, 0.05)',
                       color: '#a855f7',
-                      padding: '5px 12px',
+                      padding: '4px 10px',
                       borderRadius: '6px',
-                      fontSize: '0.8rem',
+                      fontSize: '0.75rem',
                       fontWeight: '600'
                     }}
                   >
@@ -354,9 +354,9 @@ const ProjectCard = ({ project, index }) => {
               </div>
             </div>
             {/* Blinking Arrow centered in the remaining available gap space */}
-            <div style={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', minHeight: isMobileView ? '30px' : '80px', maxHeight: isMobileView ? '50px' : 'none' }}>
+            <div style={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', minHeight: isMobileView ? '20px' : '40px', maxHeight: isMobileView ? '40px' : 'none' }}>
               <div style={{ animation: 'bounceBlink 1.5s infinite ease-in-out' }}>
-                <svg width="32" height="48" viewBox="0 0 24 40" fill="none" stroke="#ec4899" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="24" height="36" viewBox="0 0 24 40" fill="none" stroke="#ec4899" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 2v34M20 28l-8 8-8-8"/>
                 </svg>
               </div>
@@ -371,10 +371,10 @@ const ProjectCard = ({ project, index }) => {
                 color: '#fff',
                 background: 'linear-gradient(135deg, rgba(236,72,153,0.2), rgba(168,85,247,0.2))',
                 border: '1px solid rgba(236,72,153,0.3)',
-                padding: isMobileView ? '12px 20px' : '14px 24px',
+                padding: isMobileView ? '10px 16px' : '12px 20px',
                 borderRadius: '20px',
                 width: '100%',
-                fontSize: '1.15rem',
+                fontSize: '1rem',
                 fontWeight: '700',
                 boxShadow: '0 4px 20px rgba(236, 72, 153, 0.15)',
                 transition: 'all 0.3s ease',
@@ -407,7 +407,7 @@ const ProjectCard = ({ project, index }) => {
             glassProps={{
               intensity: 0.25,
               blur: 12,
-              padding: isMobileView ? '1.5rem' : '1.5rem',
+              padding: isMobileView ? '1.2rem' : '1.4rem',
               glassClassName: `glass-projects theme-${project.theme} mobile-glass-padding`,
               style: {
                 borderRadius: '28px',
