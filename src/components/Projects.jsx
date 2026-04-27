@@ -307,7 +307,7 @@ const ProjectCard = ({ project, index }) => {
           transform: 'translateZ(1px)',
           WebkitTransform: 'translateZ(1px)',
           height: '100%',
-          background: `linear-gradient(rgba(20, 25, 40, 0.4), rgba(20, 25, 40, 0.4)) padding-box, linear-gradient(180deg, rgba(255,255,255,0.05) 0%, ${neonGlow} 100%) border-box`,
+          backgroundColor: 'rgba(15, 20, 35, 0.4)', // Darker translucent glass so it's not blinding
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)',
           borderRadius: '24px',
@@ -317,8 +317,10 @@ const ProjectCard = ({ project, index }) => {
           alignItems: 'center',
           justifyContent: 'flex-start',
           textAlign: 'center',
-          border: '3px solid transparent',
-          boxShadow: `0 50px 80px -20px ${neonGlow}80, inset 0 -15px 30px -20px ${neonGlow}a0`,
+          border: '1px solid rgba(255, 255, 255, 0.05)',
+          borderBottom: `6px solid ${neonGlow}`, // Thick bottom line that curves up the corners
+          boxShadow: `0 40px 60px -20px ${neonGlow}50, inset 0 -20px 40px -20px ${neonGlow}80`, // Ground reflection and slight inner fade
+
 
           boxSizing: 'border-box'
         }}>
