@@ -232,18 +232,28 @@ const Hero = () => {
                   bottom: skill.bottom, 
                   left: skill.left, 
                   right: skill.right, 
-                  background: skill.bg, 
-                  padding: '12px 18px', 
-                  borderRadius: '12px', 
                   zIndex: skill.isPrimary ? 5 : 4, 
-                  boxShadow: `0 10px 20px ${skill.bg}50`, 
-                  color: '#fff', 
-                  fontWeight: 'bold', 
-                  fontSize: '1.2rem',
                   pointerEvents: 'none'
                 }}
               >
-                {skill.name}
+                <div 
+                  className="spaceship-skill"
+                  style={{
+                    background: `${skill.bg}aa`,
+                    padding: '8px 16px',
+                    borderRadius: '12px',
+                    color: '#fff',
+                    fontWeight: 'bold',
+                    fontSize: '1rem',
+                    boxShadow: `0 5px 15px ${skill.bg}50`,
+                    border: `1px solid ${skill.bg}`,
+                    whiteSpace: 'nowrap',
+                    animation: `dogfight ${3 + (idx % 4)}s ${(idx * 0.5) % 2}s infinite alternate ease-in-out`,
+                    '--laser-color': skill.bg
+                  }}
+                >
+                  {skill.name}
+                </div>
               </motion.div>
             );
           })}
@@ -282,30 +292,7 @@ const Hero = () => {
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                <div style={{
-                  fontSize: isMobileView ? '2.5rem' : '3.5rem',
-                  fontWeight: '800',
-                  lineHeight: '1.1',
-                  textAlign: 'center',
-                  textTransform: 'uppercase',
-                  letterSpacing: '2px',
-                  background: 'linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.5))'
-                }}>
-                  Technical<br/>Skills
-                </div>
-                <div style={{
-                  marginTop: '1rem',
-                  fontSize: '1rem',
-                  color: 'rgba(255,255,255,0.7)',
-                  fontWeight: '500',
-                  letterSpacing: '1px',
-                  textTransform: 'uppercase'
-                }}>
-                  Hover to Expand
-                </div>
+                {/* Empty galaxy core - purely visual */}
               </div>
             </div>
             

@@ -307,9 +307,9 @@ const ProjectCard = ({ project, index }) => {
           transform: 'translateZ(1px)',
           WebkitTransform: 'translateZ(1px)',
           height: '100%',
-          backgroundColor: 'rgba(255, 255, 255, 0.02)', // Ultra transparent glass
-          backdropFilter: 'blur(4px)',
-          WebkitBackdropFilter: 'blur(4px)',
+          background: `linear-gradient(rgba(20, 25, 40, 0.4), rgba(20, 25, 40, 0.4)) padding-box, linear-gradient(180deg, rgba(255,255,255,0.05) 0%, ${neonGlow} 100%) border-box`,
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
           borderRadius: '24px',
           padding: isMobileView ? '2rem 1.5rem' : '2.5rem 2rem',
           display: 'flex',
@@ -317,9 +317,9 @@ const ProjectCard = ({ project, index }) => {
           alignItems: 'center',
           justifyContent: 'flex-start',
           textAlign: 'center',
-          border: '1px solid rgba(255, 255, 255, 0.05)',
-          borderBottom: `3px solid ${neonGlow}`,
-          boxShadow: `0 20px 30px -10px ${neonGlow}80`, // Original neon glow at the bottom
+          border: '3px solid transparent',
+          boxShadow: `0 50px 80px -20px ${neonGlow}80, inset 0 -15px 30px -20px ${neonGlow}a0`,
+
           boxSizing: 'border-box'
         }}>
           {/* Big Emoji / Icon */}
