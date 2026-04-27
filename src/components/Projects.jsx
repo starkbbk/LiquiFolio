@@ -311,7 +311,7 @@ const ProjectCard = ({ project, index }) => {
           backdropFilter: 'blur(4px)',
           WebkitBackdropFilter: 'blur(4px)',
           borderRadius: '24px',
-          padding: isMobileView ? '2rem 1.5rem' : '2.5rem 2rem',
+          padding: isMobileView ? '1.2rem 1.2rem' : '1.5rem 1.5rem',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -340,8 +340,8 @@ const ProjectCard = ({ project, index }) => {
         >
           {/* Big Emoji / Icon */}
           <div style={{
-            fontSize: '3.5rem',
-            marginBottom: '1.5rem',
+            fontSize: '2.5rem',
+            marginBottom: '0.8rem',
             filter: `drop-shadow(0 10px 15px ${neonGlow}60)` // glow pointing down
           }}>
             {project.emoji}
