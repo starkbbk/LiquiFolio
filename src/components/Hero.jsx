@@ -5,6 +5,7 @@ import myPicture from '../assets/myPicture.png';
 const Hero = () => {
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 968);
   const laserCanvasRef = useRef(null);
+  const shipContainerRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => setIsMobileView(window.innerWidth <= 968);
@@ -12,112 +13,117 @@ const Hero = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Laser shooting animation between spaceships
+  // Unified animation: orbit ships + shoot lasers
   useEffect(() => {
     const canvas = laserCanvasRef.current;
-    if (!canvas) return;
+    const container = shipContainerRef.current;
+    if (!canvas || !container) return;
 
     const ctx = canvas.getContext('2d');
     let animationId;
     const lasers = [];
-    const shipColors = ['#0284c7', '#2563eb', '#059669', '#ea580c', '#3b82f6', '#0ea5e9', '#666'];
-    
-    // Ship positions (matching the 7 ships)
-    const ships = [
-      { angle: 0, radius: 38, speed: 0.3 },
-      { angle: 51, radius: 42, speed: 0.25 },
-      { angle: 102, radius: 35, speed: 0.35 },
-      { angle: 153, radius: 40, speed: 0.28 },
-      { angle: 204, radius: 37, speed: 0.32 },
-      { angle: 255, radius: 44, speed: 0.22 },
-      { angle: 306, radius: 39, speed: 0.38 }
+    const shipColors = ['#0284c7', '#2563eb', '#059669', '#ea580c', '#3b82f6', '#0ea5e9', '#555'];
+
+    const shipConfigs = [
+      { angle: 0, radius: 0.30, speed: 0.18 },
+      { angle: 51, radius: 0.35, speed: -0.14 },
+      { angle: 102, radius: 0.25, speed: 0.22 },
+      { angle: 153, radius: 0.33, speed: -0.12 },
+      { angle: 204, radius: 0.28, speed: 0.16 },
+      { angle: 255, radius: 0.37, speed: -0.20 },
+      { angle: 306, radius: 0.31, speed: 0.24 }
     ];
 
-    const getShipPos = (ship, time) => {
-      const a = (ship.angle + time * ship.speed) * Math.PI / 180;
-      return {
-        x: canvas.width / 2 + (ship.radius / 100) * canvas.width * Math.cos(a),
-        y: canvas.height / 2 + (ship.radius / 100) * canvas.height * Math.sin(a)
-      };
-    };
-
-    const spawnLaser = (time) => {
-      const from = Math.floor(Math.random() * 7);
-      let to = Math.floor(Math.random() * 7);
-      while (to === from) to = Math.floor(Math.random() * 7);
-      
-      const fromPos = getShipPos(ships[from], time);
-      const toPos = getShipPos(ships[to], time);
-      
-      lasers.push({
-        fromX: fromPos.x, fromY: fromPos.y,
-        toX: toPos.x, toY: toPos.y,
-        progress: 0,
-        color: shipColors[from],
-        life: 1
-      });
-    };
-
+    const angles = shipConfigs.map(s => s.angle);
+    const shipEls = container.querySelectorAll('.spaceship-orbit');
     let lastSpawn = 0;
-    let time = 0;
 
-    const animate = () => {
+    const animate = (ts) => {
       canvas.width = canvas.offsetWidth * 2;
       canvas.height = canvas.offsetHeight * 2;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      time += 0.5;
 
-      // Spawn new laser every ~800ms
-      if (time - lastSpawn > 40) {
-        spawnLaser(time);
-        lastSpawn = time;
+      const cw = canvas.width;
+      const ch = canvas.height;
+
+      // Update ship orbital positions via direct DOM manipulation
+      const positions = [];
+      for (let i = 0; i < shipConfigs.length; i++) {
+        angles[i] += shipConfigs[i].speed;
+        const a = angles[i] * Math.PI / 180;
+        const r = shipConfigs[i].radius;
+        const px = 50 + r * 100 * Math.cos(a);
+        const py = 50 + r * 100 * Math.sin(a);
+        positions.push({ x: px, y: py });
+
+        if (shipEls[i]) {
+          const tangent = angles[i] + (shipConfigs[i].speed > 0 ? 90 : -90);
+          shipEls[i].style.left = `${px}%`;
+          shipEls[i].style.top = `${py}%`;
+          shipEls[i].style.transform = `translate(-50%, -50%) rotate(${tangent}deg)`;
+        }
       }
 
-      // Draw and update lasers
+      // Spawn laser every ~600ms
+      if (ts - lastSpawn > 600) {
+        const from = Math.floor(Math.random() * 7);
+        let to = Math.floor(Math.random() * 7);
+        while (to === from) to = Math.floor(Math.random() * 7);
+
+        lasers.push({
+          fromX: (positions[from].x / 100) * cw,
+          fromY: (positions[from].y / 100) * ch,
+          toX: (positions[to].x / 100) * cw,
+          toY: (positions[to].y / 100) * ch,
+          progress: 0,
+          color: shipColors[from],
+          life: 1
+        });
+        lastSpawn = ts;
+      }
+
+      // Draw lasers
       for (let i = lasers.length - 1; i >= 0; i--) {
         const laser = lasers[i];
-        laser.progress += 0.04;
-        laser.life -= 0.02;
+        laser.progress += 0.05;
+        laser.life -= 0.025;
 
-        if (laser.life <= 0) {
-          lasers.splice(i, 1);
-          continue;
-        }
+        if (laser.life <= 0) { lasers.splice(i, 1); continue; }
 
-        const headX = laser.fromX + (laser.toX - laser.fromX) * Math.min(laser.progress, 1);
-        const headY = laser.fromY + (laser.toY - laser.fromY) * Math.min(laser.progress, 1);
-        const tailProgress = Math.max(0, laser.progress - 0.3);
-        const tailX = laser.fromX + (laser.toX - laser.fromX) * Math.min(tailProgress, 1);
-        const tailY = laser.fromY + (laser.toY - laser.fromY) * Math.min(tailProgress, 1);
+        const hp = Math.min(laser.progress, 1);
+        const tp = Math.max(0, laser.progress - 0.3);
+        const hx = laser.fromX + (laser.toX - laser.fromX) * hp;
+        const hy = laser.fromY + (laser.toY - laser.fromY) * hp;
+        const tx = laser.fromX + (laser.toX - laser.fromX) * Math.min(tp, 1);
+        const ty = laser.fromY + (laser.toY - laser.fromY) * Math.min(tp, 1);
 
-        // Laser beam
-        ctx.beginPath();
-        ctx.moveTo(tailX, tailY);
-        ctx.lineTo(headX, headY);
-        ctx.strokeStyle = laser.color;
-        ctx.lineWidth = 3;
-        ctx.shadowColor = laser.color;
-        ctx.shadowBlur = 15;
+        // Outer glow beam
         ctx.globalAlpha = laser.life;
-        ctx.stroke();
-
-        // Bright core
         ctx.beginPath();
-        ctx.moveTo(tailX, tailY);
-        ctx.lineTo(headX, headY);
-        ctx.strokeStyle = '#fff';
-        ctx.lineWidth = 1.5;
-        ctx.shadowBlur = 8;
+        ctx.moveTo(tx, ty);
+        ctx.lineTo(hx, hy);
+        ctx.strokeStyle = laser.color;
+        ctx.lineWidth = 4;
+        ctx.shadowColor = laser.color;
+        ctx.shadowBlur = 20;
         ctx.stroke();
 
-        // Impact flash
-        if (laser.progress >= 1 && laser.life > 0.5) {
+        // Inner white core
+        ctx.beginPath();
+        ctx.moveTo(tx, ty);
+        ctx.lineTo(hx, hy);
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.shadowBlur = 10;
+        ctx.stroke();
+
+        // Impact flash on hit
+        if (laser.progress >= 1 && laser.life > 0.4) {
           ctx.beginPath();
-          ctx.arc(laser.toX, laser.toY, 8 * laser.life, 0, Math.PI * 2);
+          ctx.arc(laser.toX, laser.toY, 12 * laser.life, 0, Math.PI * 2);
           ctx.fillStyle = laser.color;
-          ctx.shadowColor = laser.color;
-          ctx.shadowBlur = 20;
+          ctx.shadowColor = '#fff';
+          ctx.shadowBlur = 30;
           ctx.fill();
         }
 
@@ -128,7 +134,7 @@ const Hero = () => {
       animationId = requestAnimationFrame(animate);
     };
 
-    animate();
+    animationId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationId);
   }, []);
 
@@ -303,70 +309,55 @@ const Hero = () => {
             <div style={{ position: 'absolute', width: '750px', height: '750px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.04)' }} />
           </div>
 
-          {/* Laser Canvas - shoots beams between spaceships */}
+          {/* Laser Canvas */}
           <canvas 
             ref={laserCanvasRef}
             style={{
               position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
+              top: 0, left: 0,
+              width: '100%', height: '100%',
               zIndex: 15,
               pointerEvents: 'none'
             }}
           />
 
-          {/* Spaceship Skills - Always visible, 7 ships */}
-          {[
-            { name: 'React', bg: '#0284c7', angle: 0, radius: 38, speed: 8, rotate: -30 },
-            { name: 'Python', bg: '#2563eb', angle: 51, radius: 42, speed: 10, rotate: 20 },
-            { name: 'Node.js', bg: '#059669', angle: 102, radius: 35, speed: 7, rotate: -15 },
-            { name: 'AI/ML', bg: '#ea580c', angle: 153, radius: 40, speed: 9, rotate: 35 },
-            { name: 'TypeScript', bg: '#3b82f6', angle: 204, radius: 37, speed: 11, rotate: -25 },
-            { name: 'Docker', bg: '#0ea5e9', angle: 255, radius: 44, speed: 6, rotate: 10 },
-            { name: 'Next.js', bg: '#333', angle: 306, radius: 39, speed: 12, rotate: -40 }
-          ].map((ship, idx) => {
-            const orbitAngle = ship.angle + (Date.now() / (ship.speed * 100)) % 360;
-            return (
-              <motion.div
+          {/* Orbiting Spaceship Skills */}
+          <div ref={shipContainerRef} style={{ position: 'absolute', inset: 0, zIndex: 20, pointerEvents: 'none' }}>
+            {[
+              { name: 'React', bg: '#0284c7' },
+              { name: 'Python', bg: '#2563eb' },
+              { name: 'Node.js', bg: '#059669' },
+              { name: 'AI/ML', bg: '#ea580c' },
+              { name: 'TypeScript', bg: '#3b82f6' },
+              { name: 'Docker', bg: '#0ea5e9' },
+              { name: 'Next.js', bg: '#555' }
+            ].map((ship) => (
+              <div
                 key={ship.name}
-                className={`spaceship-${idx}`}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ 
-                  opacity: 1, 
-                  scale: 1
-                }}
-                transition={{ duration: 0.6, delay: idx * 0.15, type: 'spring' }}
-                style={{ 
-                  position: 'absolute', 
-                  top: `${50 + ship.radius * Math.sin((ship.angle + idx * 20) * Math.PI / 180)}%`,
-                  left: `${50 + ship.radius * Math.cos((ship.angle + idx * 20) * Math.PI / 180)}%`,
+                className="spaceship-orbit"
+                style={{
+                  position: 'absolute',
+                  left: '50%', top: '50%',
                   transform: 'translate(-50%, -50%)',
-                  zIndex: 20, 
-                  pointerEvents: 'none',
-                  animation: `orbit-${idx} ${ship.speed}s linear infinite`
+                  zIndex: 20,
+                  pointerEvents: 'none'
                 }}
               >
-                <div 
+                <div
                   className="spaceship-skill"
                   style={{
-                    background: `${ship.bg}cc`,
-                    padding: '6px 18px 6px 10px',
+                    '--ship-bg': ship.bg,
+                    background: `${ship.bg}dd`,
                     color: '#fff',
-                    fontWeight: 'bold',
-                    fontSize: '0.85rem',
-                    boxShadow: `0 0 20px ${ship.bg}80, 0 0 40px ${ship.bg}30`,
-                    border: `1px solid ${ship.bg}`,
-                    whiteSpace: 'nowrap',
-                    animation: `dogfight ${3 + (idx % 3)}s ${idx * 0.3}s infinite alternate ease-in-out`
+                    fontWeight: '800',
+                    boxShadow: `0 0 15px ${ship.bg}60, 0 0 30px ${ship.bg}25`
                   }}
                 >
                   {ship.name}
                 </div>
-              </motion.div>
-            );
-          })}
+              </div>
+            ))}
+          </div>
 
           {/* Main Avatar */}
           <motion.div 

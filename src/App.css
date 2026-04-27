@@ -487,50 +487,52 @@ a {
   z-index: 1;
 }
 
-/* Spaceship Skills Animation */
-@keyframes dogfight {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  20% { transform: translate(15px, -10px) rotate(15deg) scale(1.05); }
-  40% { transform: translate(-10px, -20px) rotate(-10deg); }
-  60% { transform: translate(-20px, 15px) rotate(-20deg) scale(0.95); }
-  80% { transform: translate(10px, 20px) rotate(10deg); }
-  100% { transform: translate(0, 0) rotate(0deg); }
-}
-
-@keyframes shoot-laser {
-  0% { opacity: 0; width: 0; }
-  5% { opacity: 1; width: 80px; background: #00ffcc; box-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc; }
-  10% { opacity: 0; width: 80px; }
-  100% { opacity: 0; }
-}
-
+/* Spaceship Skills - Rocket Shape */
 .spaceship-skill {
   position: relative;
-  clip-path: polygon(100% 50%, 85% 0%, 0% 0%, 0% 100%, 85% 100%);
-  padding: 8px 28px 8px 14px !important;
-  border-radius: 6px 0 0 6px !important;
-  border: none !important;
-  letter-spacing: 1px;
+  border-radius: 50% !important;
+  padding: 12px 18px !important;
+  border: 2px solid rgba(255,255,255,0.3) !important;
+  font-size: 0.75rem !important;
   text-transform: uppercase;
-  font-size: 0.8rem !important;
-  transition: all 0.3s ease;
+  letter-spacing: 1.5px;
+  font-weight: 800 !important;
+  white-space: nowrap;
+  overflow: visible !important;
+  z-index: 2;
 }
 
-/* Engine exhaust glow trail */
+/* Nose cone - pointed triangle on the right */
+.spaceship-skill::before {
+  content: "";
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+  border-left: 16px solid var(--ship-bg, #333);
+  filter: brightness(1.1);
+  z-index: -1;
+}
+
+/* Engine flame exhaust on the left */
 .spaceship-skill::after {
   content: "";
   position: absolute;
-  top: 30%;
-  left: -12px;
-  height: 40%;
-  width: 14px;
-  background: linear-gradient(90deg, transparent, rgba(255, 200, 50, 0.9), rgba(255, 100, 0, 0.6));
-  border-radius: 50% 0 0 50%;
-  filter: blur(3px);
-  animation: engine-flicker 0.15s infinite alternate;
+  left: -20px;
+  top: 15%;
+  height: 70%;
+  width: 22px;
+  background: linear-gradient(to left, #ff6600, #ffcc00, transparent);
+  clip-path: polygon(100% 0%, 40% 30%, 0% 0%, 50% 50%, 0% 100%, 40% 70%, 100% 100%);
+  animation: engine-flicker 0.12s infinite alternate;
+  z-index: -1;
 }
 
 @keyframes engine-flicker {
-  0% { opacity: 0.6; transform: scaleX(0.8); }
-  100% { opacity: 1; transform: scaleX(1.2); }
+  0% { opacity: 0.5; transform: scaleX(0.7); }
+  100% { opacity: 1; transform: scaleX(1.3); }
 }
