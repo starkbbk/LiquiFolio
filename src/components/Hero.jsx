@@ -262,17 +262,45 @@ const Hero = () => {
               padding: '10px',
               boxShadow: 'inset 0 0 50px rgba(234,88,12,0.05)'
             }}>
-              <img 
-                src={myPicture} 
-                alt="Shivanand Verma" 
-                style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  objectFit: 'cover', 
-                  borderRadius: '50%',
-                  filter: 'drop-shadow(0 30px 40px rgba(0,0,0,0.6))'
-                }} 
-              />
+              <div style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: '50%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'rgba(20, 25, 40, 0.6)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                border: '2px solid rgba(255, 255, 255, 0.08)',
+                boxShadow: '0 20px 50px rgba(0,0,0,0.5), inset 0 0 30px rgba(234, 88, 12, 0.2)'
+              }}>
+                <div style={{
+                  fontSize: isMobileView ? '2.5rem' : '3.5rem',
+                  fontWeight: '800',
+                  lineHeight: '1.1',
+                  textAlign: 'center',
+                  textTransform: 'uppercase',
+                  letterSpacing: '2px',
+                  background: 'linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.5))'
+                }}>
+                  Technical<br/>Skills
+                </div>
+                <div style={{
+                  marginTop: '1rem',
+                  fontSize: '1rem',
+                  color: 'rgba(255,255,255,0.5)',
+                  fontWeight: '500',
+                  letterSpacing: '1px',
+                  textTransform: 'uppercase'
+                }}>
+                  Hover to Expand
+                </div>
+              </div>
             </div>
             
             {/* Ambient Glow behind avatar */}
