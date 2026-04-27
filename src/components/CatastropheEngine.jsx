@@ -305,6 +305,183 @@ class Sandstorm {
   }
 }
 
+// --- NEW DISASTER THEMES ---
+
+class EarthquakeTremor {
+  constructor(w, h) { this.init(w, h); }
+  init(w, h) {
+    this.w = w; this.h = h;
+    this.dust = Array.from({length: 150}, () => ({
+      x: Math.random()*w, y: Math.random()*h, s: Math.random()*4+2, vy: Math.random()*2+1
+    }));
+    this.rocks = Array.from({length: 20}, () => ({
+      x: Math.random()*w, y: -Math.random()*h, s: Math.random()*15+5, vy: Math.random()*10+5, r: Math.random()*Math.PI*2, vr: (Math.random()-0.5)*0.2
+    }));
+    this.time = 0;
+  }
+  render(ctx) {
+    this.time++;
+    ctx.fillStyle = 'rgba(20, 10, 5, 0.4)';
+    ctx.fillRect(0, 0, this.w, this.h);
+    
+    if (Math.random() < 0.05) {
+      document.body.classList.add('shake');
+      setTimeout(() => document.body.classList.remove('shake'), 100);
+    }
+
+    ctx.fillStyle = 'rgba(139, 69, 19, 0.5)';
+    this.dust.forEach(d => {
+      d.y += d.vy; d.x += Math.sin(this.time*0.1 + d.y)*0.5;
+      if(d.y > this.h) { d.y = 0; d.x = Math.random()*this.w; }
+      ctx.beginPath(); ctx.arc(d.x, d.y, d.s, 0, Math.PI*2); ctx.fill();
+    });
+
+    ctx.fillStyle = '#4a2511';
+    this.rocks.forEach(r => {
+      r.y += r.vy; r.r += r.vr;
+      if(r.y > this.h + 50) { r.y = -50; r.x = Math.random()*this.w; }
+      ctx.save();
+      ctx.translate(r.x, r.y);
+      ctx.rotate(r.r);
+      ctx.fillRect(-r.s/2, -r.s/2, r.s, r.s);
+      ctx.restore();
+    });
+  }
+}
+
+class DarkTornado {
+  constructor(w, h) { this.init(w, h); }
+  init(w, h) {
+    this.w = w; this.h = h;
+    this.tornado = Array.from({length: 500}, () => ({
+      a: Math.random()*Math.PI*2, y: Math.random()*h, r: Math.random(), s: Math.random()*0.15+0.05
+    }));
+    this.debris = Array.from({length: 100}, () => ({
+      x: Math.random()*w, y: Math.random()*h, vx: (Math.random()-0.5)*20, vy: (Math.random()-0.5)*10, s: Math.random()*3+1
+    }));
+    this.time = 0;
+  }
+  render(ctx) {
+    this.time++;
+    ctx.fillStyle = 'rgba(15, 15, 15, 0.5)';
+    ctx.fillRect(0, 0, this.w, this.h);
+
+    const cx = this.w/2 + Math.sin(this.time*0.02)*100;
+    
+    ctx.fillStyle = 'rgba(100, 100, 100, 0.6)';
+    this.debris.forEach(d => {
+      d.x += d.vx; d.y += d.vy;
+      if(d.x < 0 || d.x > this.w || d.y < 0 || d.y > this.h) {
+        d.x = cx; d.y = this.h/2;
+      }
+      ctx.fillRect(d.x, d.y, d.s*2, d.s);
+    });
+
+    this.tornado.forEach(p => {
+      p.a += p.s; p.y -= p.s*30; if(p.y < 0) p.y = this.h;
+      const maxR = (1 - p.y/this.h)*400 + 50;
+      const x = cx + Math.cos(p.a) * (p.r * maxR);
+      ctx.fillStyle = `rgba(169, 169, 169, ${0.8 - p.r*0.6})`;
+      ctx.fillRect(x, p.y, 5, 5);
+    });
+  }
+}
+
+class VolcanoEruption {
+  constructor(w, h) { this.init(w, h); }
+  init(w, h) {
+    this.w = w; this.h = h;
+    this.magma = Array.from({length: 150}, () => ({
+      x: w/2 + (Math.random()-0.5)*100, y: h, vx: (Math.random()-0.5)*8, vy: -(Math.random()*15+10), s: Math.random()*8+4, life: 1.0
+    }));
+    this.ash = Array.from({length: 200}, () => ({
+      x: Math.random()*w, y: Math.random()*h, vx: (Math.random()-0.5)*2, vy: Math.random()*3+1, s: Math.random()*3+1
+    }));
+  }
+  render(ctx) {
+    ctx.fillStyle = 'rgba(25, 5, 0, 0.4)';
+    ctx.fillRect(0, 0, this.w, this.h);
+
+    ctx.fillStyle = 'rgba(100, 100, 100, 0.6)';
+    this.ash.forEach(a => {
+      a.x += a.vx; a.y += a.vy;
+      if(a.y > this.h) { a.y = 0; a.x = Math.random()*this.w; }
+      ctx.beginPath(); ctx.arc(a.x, a.y, a.s, 0, Math.PI*2); ctx.fill();
+    });
+
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = '#ff4500';
+    this.magma.forEach(m => {
+      m.x += m.vx; m.y += m.vy; m.vy += 0.2; 
+      m.life -= 0.005;
+      if(m.y > this.h || m.life <= 0) {
+        m.x = this.w/2 + (Math.random()-0.5)*100; m.y = this.h;
+        m.vx = (Math.random()-0.5)*8; m.vy = -(Math.random()*15+10); m.life = 1.0;
+      }
+      ctx.fillStyle = `rgba(255, 69, 0, ${m.life})`;
+      ctx.beginPath(); ctx.arc(m.x, m.y, m.s, 0, Math.PI*2); ctx.fill();
+    });
+    ctx.shadowBlur = 0;
+  }
+}
+
+class BlizzardStorm {
+  constructor(w, h) { this.init(w, h); }
+  init(w, h) {
+    this.w = w; this.h = h;
+    this.snow = Array.from({length: 400}, () => ({
+      x: Math.random()*w, y: Math.random()*h, vx: Math.random()*15+10, vy: Math.random()*10+5, s: Math.random()*3+1
+    }));
+  }
+  render(ctx) {
+    ctx.fillStyle = 'rgba(0, 15, 25, 0.4)';
+    ctx.fillRect(0, 0, this.w, this.h);
+    
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    this.snow.forEach(s => {
+      s.x -= s.vx; s.y += s.vy;
+      if(s.x < 0 || s.y > this.h) {
+        s.x = this.w + Math.random()*100; s.y = -50;
+      }
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+      ctx.lineWidth = s.s;
+      ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(s.x + s.vx*2, s.y - s.vy*2); ctx.stroke();
+    });
+  }
+}
+
+class MeteorShower {
+  constructor(w, h) { this.init(w, h); }
+  init(w, h) {
+    this.w = w; this.h = h;
+    this.meteors = Array.from({length: 25}, () => ({
+      x: Math.random()*w*2, y: -Math.random()*h, vx: -(Math.random()*20+15), vy: Math.random()*15+10, l: Math.random()*100+50
+    }));
+  }
+  render(ctx) {
+    ctx.fillStyle = 'rgba(20, 0, 15, 0.4)';
+    ctx.fillRect(0, 0, this.w, this.h);
+
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = '#ff1493';
+    ctx.lineWidth = 3;
+    this.meteors.forEach(m => {
+      m.x += m.vx; m.y += m.vy;
+      if(m.x < -m.l || m.y > this.h + m.l) {
+        m.x = Math.random()*this.w + this.w/2; m.y = -Math.random()*100;
+      }
+      const grad = ctx.createLinearGradient(m.x, m.y, m.x - m.vx*3, m.y - m.vy*3);
+      grad.addColorStop(0, '#ffffff');
+      grad.addColorStop(0.2, '#ff1493');
+      grad.addColorStop(1, 'transparent');
+      ctx.strokeStyle = grad;
+      ctx.beginPath(); ctx.moveTo(m.x, m.y); ctx.lineTo(m.x - m.vx*3, m.y - m.vy*3); ctx.stroke();
+    });
+    ctx.shadowBlur = 0;
+  }
+}
+
 // ==========================================
 // MAIN ENGINE COMPONENT
 // ==========================================
@@ -376,6 +553,11 @@ const CatastropheEngine = () => {
     if (activeTheme === 'fire') engine = new FireTornado(w, h);
     if (activeTheme === 'water') engine = new WaterFlood(w, h);
     if (activeTheme === 'wind') engine = new Sandstorm(w, h);
+    if (activeTheme === 'earthquake') engine = new EarthquakeTremor(w, h);
+    if (activeTheme === 'tornado') engine = new DarkTornado(w, h);
+    if (activeTheme === 'volcano') engine = new VolcanoEruption(w, h);
+    if (activeTheme === 'blizzard') engine = new BlizzardStorm(w, h);
+    if (activeTheme === 'meteor') engine = new MeteorShower(w, h);
 
     let afId;
     const render = () => {
