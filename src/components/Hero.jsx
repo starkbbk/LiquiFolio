@@ -347,10 +347,10 @@ const Hero = () => {
                   className="spaceship-skill"
                   style={{
                     '--ship-bg': ship.bg,
-                    background: `${ship.bg}dd`,
+                    background: `${ship.bg}35`,
                     color: '#fff',
-                    fontWeight: '800',
-                    boxShadow: `0 0 15px ${ship.bg}60, 0 0 30px ${ship.bg}25`
+                    fontWeight: '700',
+                    boxShadow: `0 0 10px ${ship.bg}30`
                   }}
                 >
                   {ship.name}
