@@ -276,7 +276,7 @@ const ProjectCard = ({ project, index }) => {
         animation: `fadeIn 0.5s ease ${index * 0.1}s forwards`, 
         opacity: 0,
         perspective: '1200px', // Crucial for 3D flip effect
-        height: isMobileView ? '390px' : '490px' // Reduced height by 15%
+        height: isMobileView ? '310px' : '390px'
       }}
     >
       <motion.div
