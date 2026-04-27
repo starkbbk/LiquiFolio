@@ -307,9 +307,9 @@ const ProjectCard = ({ project, index }) => {
           transform: 'translateZ(1px)',
           WebkitTransform: 'translateZ(1px)',
           height: '100%',
-          backgroundColor: 'transparent',
-          backdropFilter: 'blur(2px)',
-          WebkitBackdropFilter: 'blur(2px)',
+          backgroundColor: 'rgba(255, 255, 255, 0.04)',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)',
           borderRadius: '24px',
           padding: isMobileView ? '2rem 1.5rem' : '2.5rem 2rem',
           display: 'flex',
@@ -317,13 +317,27 @@ const ProjectCard = ({ project, index }) => {
           alignItems: 'center',
           justifyContent: 'flex-start',
           textAlign: 'center',
-          border: '1px solid rgba(255, 255, 255, 0.05)',
-          borderBottom: `6px solid ${neonGlow}`, // Thick bottom line that curves up the corners
-          boxShadow: `0 40px 60px -20px ${neonGlow}50, inset 0 -20px 40px -20px ${neonGlow}80`, // Ground reflection and slight inner fade
-
-
+          border: '1px solid rgba(255, 255, 255, 0.15)',
+          borderBottom: `6px solid ${neonGlow}`,
+          boxShadow: `0 40px 60px -20px ${neonGlow}50, inset 0 -20px 40px -20px ${neonGlow}80`,
+          transition: 'transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, background-color 0.35s ease',
+          cursor: 'pointer',
           boxSizing: 'border-box'
-        }}>
+        }}
+        className="project-card-inner"
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateZ(1px) translateY(-8px) scale(1.02)';
+          e.currentTarget.style.borderColor = `${neonGlow}90`;
+          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
+          e.currentTarget.style.boxShadow = `0 50px 80px -20px ${neonGlow}70, inset 0 -25px 50px -20px ${neonGlow}99, 0 0 30px ${neonGlow}30`;
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateZ(1px)';
+          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.04)';
+          e.currentTarget.style.boxShadow = `0 40px 60px -20px ${neonGlow}50, inset 0 -20px 40px -20px ${neonGlow}80`;
+        }}
+        >
           {/* Big Emoji / Icon */}
           <div style={{
             fontSize: '3.5rem',
