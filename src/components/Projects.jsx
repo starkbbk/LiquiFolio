@@ -307,35 +307,37 @@ const ProjectCard = ({ project, index }) => {
           transform: 'translateZ(1px)',
           WebkitTransform: 'translateZ(1px)',
           height: '100%',
-          backgroundColor: 'rgba(255, 255, 255, 0.04)',
-          backdropFilter: 'blur(4px)',
-          WebkitBackdropFilter: 'blur(4px)',
-          borderRadius: '24px',
+          backgroundColor: 'rgba(255, 255, 255, 0.06)',
+          backdropFilter: 'blur(20px) saturate(1.3)',
+          WebkitBackdropFilter: 'blur(20px) saturate(1.3)',
+          borderRadius: '20px',
           padding: isMobileView ? '1.2rem 1.2rem' : '1.5rem 1.5rem',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'flex-start',
           textAlign: 'center',
-          border: '1px solid rgba(255, 255, 255, 0.15)',
-          borderBottom: `6px solid ${neonGlow}`,
-          boxShadow: `0 40px 60px -20px ${neonGlow}50, inset 0 -20px 40px -20px ${neonGlow}80`,
+          border: '1px solid rgba(255, 255, 255, 0.18)',
+          borderBottom: `4px solid ${neonGlow}`,
+          boxShadow: `0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.1), 0 20px 40px -15px ${neonGlow}40`,
           transition: 'transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, background-color 0.35s ease',
           cursor: 'pointer',
           boxSizing: 'border-box'
         }}
         className="project-card-inner"
         onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateZ(1px) translateY(-8px) scale(1.02)';
-          e.currentTarget.style.borderColor = `${neonGlow}90`;
-          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
-          e.currentTarget.style.boxShadow = `0 50px 80px -20px ${neonGlow}70, inset 0 -25px 50px -20px ${neonGlow}99, 0 0 30px ${neonGlow}30`;
+          e.currentTarget.style.transform = 'translateZ(1px) translateY(-6px) scale(1.02)';
+          e.currentTarget.style.borderColor = `rgba(255, 255, 255, 0.3)`;
+          e.currentTarget.style.borderBottom = `4px solid ${neonGlow}`;
+          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+          e.currentTarget.style.boxShadow = `0 12px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.15), 0 25px 50px -15px ${neonGlow}60`;
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = 'translateZ(1px)';
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
-          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.04)';
-          e.currentTarget.style.boxShadow = `0 40px 60px -20px ${neonGlow}50, inset 0 -20px 40px -20px ${neonGlow}80`;
+          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.18)';
+          e.currentTarget.style.borderBottom = `4px solid ${neonGlow}`;
+          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.06)';
+          e.currentTarget.style.boxShadow = `0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.1), 0 20px 40px -15px ${neonGlow}40`;
         }}
         >
           {/* Big Emoji / Icon */}
