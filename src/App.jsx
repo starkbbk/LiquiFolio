@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Projects from './components/Projects';
@@ -9,13 +9,28 @@ import MotionCanvas from './components/MotionCanvas';
 import CatastropheEngine from './components/CatastropheEngine';
 
 function App() {
+  const blobRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!blobRef.current) return;
+      const scrollY = window.scrollY;
+      const maxScroll = document.body.scrollHeight - window.innerHeight;
+      const scrollPercent = scrollY / maxScroll;
+      // Full 360° hue rotation as you scroll through the page
+      const hue = scrollPercent * 360;
+      blobRef.current.style.filter = `hue-rotate(${hue}deg)`;
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   return (
     <>
       <CatastropheEngine />
       <MotionCanvas />
 
       {/* Vibrant Background Blobs */}
-      <div className="blob-container">
+      <div className="blob-container" ref={blobRef}>
         <div className="blob blob-1"></div>
         <div className="blob blob-2"></div>
         <div className="blob blob-3"></div>
