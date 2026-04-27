@@ -198,7 +198,16 @@ const Hero = () => {
             { name: 'MongoDB', bg: '#10b981', bottom: '45%', right: '-10%', delay: 0.3, rotate: -25 },
             { name: 'AWS', bg: '#f97316', bottom: '40%', left: '-10%', delay: 0.7, rotate: 5 },
             { name: 'GraphQL', bg: '#db2777', top: '10%', left: '40%', delay: 0.5, rotate: 22 },
-            { name: 'Next.js', bg: '#333333', bottom: '10%', right: '40%', delay: 0.9, rotate: -18 }
+            { name: 'Next.js', bg: '#333333', bottom: '10%', right: '40%', delay: 0.9, rotate: -18 },
+            // Tertiary (Extra density on hover)
+            { name: 'Vue.js', bg: '#10b981', top: '25%', right: '-15%', delay: 0.1, rotate: 18 },
+            { name: 'Angular', bg: '#dd0031', bottom: '25%', left: '-15%', delay: 0.5, rotate: -12 },
+            { name: 'Tailwind', bg: '#0ea5e9', top: '-10%', left: '25%', delay: 0.7, rotate: 25 },
+            { name: 'Redux', bg: '#764abc', bottom: '-10%', right: '25%', delay: 0.2, rotate: -20 },
+            { name: 'Figma', bg: '#f24e1e', top: '45%', left: '-25%', delay: 0.6, rotate: 10 },
+            { name: 'Git', bg: '#f1502f', bottom: '45%', right: '-25%', delay: 0.8, rotate: -15 },
+            { name: 'MySQL', bg: '#00758f', top: '-5%', right: '15%', delay: 0.3, rotate: -5 },
+            { name: 'Redis', bg: '#d82c20', bottom: '-5%', left: '15%', delay: 0.4, rotate: 8 }
           ].map((skill, idx) => {
             const isVisible = skill.isPrimary || isHoveringAvatar;
             return (
@@ -262,19 +271,16 @@ const Hero = () => {
               padding: '10px',
               boxShadow: 'inset 0 0 50px rgba(234,88,12,0.05)'
             }}>
-              <div style={{
+              <div 
+              className="galaxy-core"
+              style={{
                 width: '100%',
                 height: '100%',
                 borderRadius: '50%',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center',
-                background: 'rgba(20, 25, 40, 0.6)',
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)',
-                border: '2px solid rgba(255, 255, 255, 0.08)',
-                boxShadow: '0 20px 50px rgba(0,0,0,0.5), inset 0 0 30px rgba(234, 88, 12, 0.2)'
+                justifyContent: 'center'
               }}>
                 <div style={{
                   fontSize: isMobileView ? '2.5rem' : '3.5rem',
@@ -293,7 +299,7 @@ const Hero = () => {
                 <div style={{
                   marginTop: '1rem',
                   fontSize: '1rem',
-                  color: 'rgba(255,255,255,0.5)',
+                  color: 'rgba(255,255,255,0.7)',
                   fontWeight: '500',
                   letterSpacing: '1px',
                   textTransform: 'uppercase'
