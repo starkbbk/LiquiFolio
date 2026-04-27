@@ -22,16 +22,23 @@ const Hero = () => {
     const ctx = canvas.getContext('2d');
     let animationId;
     const lasers = [];
-    const shipColors = ['#0284c7', '#2563eb', '#059669', '#ea580c', '#3b82f6', '#0ea5e9', '#555'];
+    const shipColors = ['#0284c7', '#2563eb', '#059669', '#ea580c', '#3b82f6', '#0ea5e9', '#555', '#f59e0b', '#10b981', '#f97316', '#db2777', '#f1502f', '#764abc', '#f24e1e'];
 
     const shipConfigs = [
       { angle: 0, radius: 0.30, speed: 0.18 },
-      { angle: 51, radius: 0.35, speed: -0.14 },
-      { angle: 102, radius: 0.25, speed: 0.22 },
-      { angle: 153, radius: 0.33, speed: -0.12 },
-      { angle: 204, radius: 0.28, speed: 0.16 },
-      { angle: 255, radius: 0.37, speed: -0.20 },
-      { angle: 306, radius: 0.31, speed: 0.24 }
+      { angle: 26, radius: 0.35, speed: -0.14 },
+      { angle: 52, radius: 0.25, speed: 0.22 },
+      { angle: 78, radius: 0.33, speed: -0.12 },
+      { angle: 104, radius: 0.28, speed: 0.16 },
+      { angle: 130, radius: 0.37, speed: -0.20 },
+      { angle: 156, radius: 0.31, speed: 0.24 },
+      { angle: 182, radius: 0.34, speed: -0.15 },
+      { angle: 208, radius: 0.26, speed: 0.19 },
+      { angle: 234, radius: 0.36, speed: -0.17 },
+      { angle: 260, radius: 0.29, speed: 0.21 },
+      { angle: 286, radius: 0.32, speed: -0.13 },
+      { angle: 312, radius: 0.38, speed: 0.16 },
+      { angle: 338, radius: 0.27, speed: -0.23 }
     ];
 
     const angles = shipConfigs.map(s => s.angle);
@@ -66,9 +73,9 @@ const Hero = () => {
 
       // Spawn laser every ~600ms
       if (ts - lastSpawn > 600) {
-        const from = Math.floor(Math.random() * 7);
-        let to = Math.floor(Math.random() * 7);
-        while (to === from) to = Math.floor(Math.random() * 7);
+        const from = Math.floor(Math.random() * 14);
+        let to = Math.floor(Math.random() * 14);
+        while (to === from) to = Math.floor(Math.random() * 14);
 
         lasers.push({
           fromX: (positions[from].x / 100) * cw,
@@ -330,7 +337,14 @@ const Hero = () => {
               { name: 'AI/ML', bg: '#ea580c' },
               { name: 'TypeScript', bg: '#3b82f6' },
               { name: 'Docker', bg: '#0ea5e9' },
-              { name: 'Next.js', bg: '#555' }
+              { name: 'Next.js', bg: '#555' },
+              { name: 'TensorFlow', bg: '#f59e0b' },
+              { name: 'MongoDB', bg: '#10b981' },
+              { name: 'AWS', bg: '#f97316' },
+              { name: 'GraphQL', bg: '#db2777' },
+              { name: 'Git', bg: '#f1502f' },
+              { name: 'Redux', bg: '#764abc' },
+              { name: 'Figma', bg: '#f24e1e' }
             ].map((ship) => (
               <div
                 key={ship.name}
