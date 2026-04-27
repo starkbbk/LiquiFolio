@@ -12,50 +12,26 @@ function App() {
   const blobRef = useRef(null);
 
   useEffect(() => {
-    let fadeTimer = null;
-
     const handleScroll = () => {
       if (!blobRef.current) return;
       const scrollY = window.scrollY;
       const maxScroll = document.body.scrollHeight - window.innerHeight;
       const scrollPercent = scrollY / maxScroll;
       const hue = scrollPercent * 360;
-
-      // Light up blobs on scroll
-      const blobs = blobRef.current.querySelectorAll('.blob');
-      blobs.forEach(blob => {
-        blob.style.opacity = '0.4';
-      });
-      blobRef.current.style.filter = `hue-rotate(${hue}deg)`;
-
-      // Fade back to dark after scrolling stops
-      clearTimeout(fadeTimer);
-      fadeTimer = setTimeout(() => {
-        blobs.forEach(blob => {
-          blob.style.opacity = '0.05';
-        });
-      }, 600);
+      blobRef.current.style.filter = `hue-rotate(${hue}deg) blur(150px)`;
     };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      clearTimeout(fadeTimer);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
   return (
     <>
       <CatastropheEngine />
       <MotionCanvas />
 
-      {/* Vibrant Background Blobs */}
+      {/* Single Background Glow - color shifts on scroll */}
       <div className="blob-container" ref={blobRef}>
         <div className="blob blob-1"></div>
-        <div className="blob blob-2"></div>
-        <div className="blob blob-3"></div>
-        <div className="blob blob-4"></div>
-        <div className="blob blob-5"></div>
-        <div className="blob blob-6"></div>
       </div>
 
       {/* Custom Mouse Cursor */}
