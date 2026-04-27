@@ -191,23 +191,23 @@ const Hero = () => {
             { name: 'JS', bg: '#eab308', bottom: '25%', left: '15%', delay: 2, isPrimary: true, rotate: -5 },
             { name: 'AI/ML', bg: '#ea580c', bottom: '15%', right: '20%', delay: 0.5, isPrimary: true, rotate: 10 },
             // Secondary (Visible on hover)
-            { name: 'Python', bg: '#2563eb', top: '5%', right: '35%', delay: 0.2, rotate: -15 },
-            { name: 'TensorFlow', bg: '#f59e0b', bottom: '5%', left: '35%', delay: 0.4, rotate: 12 },
-            { name: 'TypeScript', bg: '#3b82f6', top: '45%', left: '-5%', delay: 0.6, rotate: -8 },
-            { name: 'Docker', bg: '#0ea5e9', top: '50%', right: '-5%', delay: 0.8, rotate: 20 },
-            { name: 'MongoDB', bg: '#10b981', bottom: '45%', right: '-10%', delay: 0.3, rotate: -25 },
-            { name: 'AWS', bg: '#f97316', bottom: '40%', left: '-10%', delay: 0.7, rotate: 5 },
-            { name: 'GraphQL', bg: '#db2777', top: '10%', left: '40%', delay: 0.5, rotate: 22 },
-            { name: 'Next.js', bg: '#333333', bottom: '10%', right: '40%', delay: 0.9, rotate: -18 },
+            { name: 'Python', bg: '#2563eb', top: '10%', right: '35%', delay: 0.2, rotate: -15 },
+            { name: 'TensorFlow', bg: '#f59e0b', bottom: '10%', left: '35%', delay: 0.4, rotate: 12 },
+            { name: 'TypeScript', bg: '#3b82f6', top: '40%', left: '5%', delay: 0.6, rotate: -8 },
+            { name: 'Docker', bg: '#0ea5e9', top: '55%', right: '5%', delay: 0.8, rotate: 20 },
+            { name: 'MongoDB', bg: '#10b981', bottom: '45%', right: '2%', delay: 0.3, rotate: -25 },
+            { name: 'AWS', bg: '#f97316', bottom: '35%', left: '2%', delay: 0.7, rotate: 5 },
+            { name: 'GraphQL', bg: '#db2777', top: '15%', left: '40%', delay: 0.5, rotate: 22 },
+            { name: 'Next.js', bg: '#333333', bottom: '15%', right: '40%', delay: 0.9, rotate: -18 },
             // Tertiary (Extra density on hover)
-            { name: 'Vue.js', bg: '#10b981', top: '25%', right: '-15%', delay: 0.1, rotate: 18 },
-            { name: 'Angular', bg: '#dd0031', bottom: '25%', left: '-15%', delay: 0.5, rotate: -12 },
-            { name: 'Tailwind', bg: '#0ea5e9', top: '-10%', left: '25%', delay: 0.7, rotate: 25 },
-            { name: 'Redux', bg: '#764abc', bottom: '-10%', right: '25%', delay: 0.2, rotate: -20 },
-            { name: 'Figma', bg: '#f24e1e', top: '45%', left: '-25%', delay: 0.6, rotate: 10 },
-            { name: 'Git', bg: '#f1502f', bottom: '45%', right: '-25%', delay: 0.8, rotate: -15 },
-            { name: 'MySQL', bg: '#00758f', top: '-5%', right: '15%', delay: 0.3, rotate: -5 },
-            { name: 'Redis', bg: '#d82c20', bottom: '-5%', left: '15%', delay: 0.4, rotate: 8 }
+            { name: 'Vue.js', bg: '#10b981', top: '25%', right: '2%', delay: 0.1, rotate: 18 },
+            { name: 'Angular', bg: '#dd0031', bottom: '25%', left: '8%', delay: 0.5, rotate: -12 },
+            { name: 'Tailwind', bg: '#0ea5e9', top: '2%', left: '25%', delay: 0.7, rotate: 25 },
+            { name: 'Redux', bg: '#764abc', bottom: '2%', right: '25%', delay: 0.2, rotate: -20 },
+            { name: 'Figma', bg: '#f24e1e', top: '65%', left: '10%', delay: 0.6, rotate: 10 },
+            { name: 'Git', bg: '#f1502f', bottom: '65%', right: '10%', delay: 0.8, rotate: -15 },
+            { name: 'MySQL', bg: '#00758f', top: '5%', right: '15%', delay: 0.3, rotate: -5 },
+            { name: 'Redis', bg: '#d82c20', bottom: '5%', left: '15%', delay: 0.4, rotate: 8 }
           ].map((skill, idx) => {
             const isVisible = skill.isPrimary || isHoveringAvatar;
             return (

@@ -458,10 +458,10 @@ a {
 
 .galaxy-core {
   position: relative;
-  overflow: hidden;
-  background-color: #050510;
-  border: 2px solid rgba(255,255,255,0.1);
-  box-shadow: 0 0 60px rgba(168,85,247,0.4), inset 0 0 50px rgba(0,0,0,0.8);
+  overflow: visible;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .galaxy-core::before {
@@ -474,10 +474,12 @@ a {
   background-image: url('./assets/purple_spiral_galaxy.png');
   background-size: cover;
   background-position: center;
-  animation: galaxy-spin 40s linear infinite;
+  animation: galaxy-spin 60s linear infinite;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.85;
+  opacity: 0.95;
+  -webkit-mask-image: radial-gradient(circle at center, black 35%, transparent 65%);
+  mask-image: radial-gradient(circle at center, black 35%, transparent 65%);
 }
 
 .galaxy-core > * {
