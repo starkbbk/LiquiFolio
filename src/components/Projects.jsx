@@ -319,7 +319,7 @@ const ProjectCard = ({ project, index }) => {
           textAlign: 'center',
           border: '1px solid rgba(255, 255, 255, 0.05)',
           borderBottom: `3px solid ${neonGlow}`,
-          boxShadow: `0 30px 60px -15px ${neonGlow}a0, 0 50px 100px -20px ${neonGlow}60`, // expanded glow area ONLY at the bottom
+          boxShadow: `0 20px 40px -15px ${neonGlow}b3`, // refined, tighter glow at the bottom
           boxSizing: 'border-box'
         }}>
           {/* Big Emoji / Icon */}
