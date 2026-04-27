@@ -255,7 +255,18 @@ const ProjectCard = ({ project, index }) => {
   };
 
   const isMobileView = window.innerWidth <= 768;
-  const neonColors = ['#00f0ff', '#ff00aa', '#bfff00'];
+  const neonColors = [
+    '#00f0ff', // Cyan
+    '#ff00aa', // Hot Pink
+    '#bfff00', // Lime Green
+    '#ff3300', // Neon Orange
+    '#9d00ff', // Electric Purple
+    '#00ff66', // Spring Green
+    '#ffea00', // Electric Yellow
+    '#0066ff', // Bright Blue
+    '#ff0055', // Crimson
+    '#00ffcc', // Aquamarine
+  ];
   const neonGlow = neonColors[index % neonColors.length];
 
   return (
@@ -304,16 +315,16 @@ const ProjectCard = ({ project, index }) => {
           alignItems: 'center',
           justifyContent: 'flex-start',
           textAlign: 'center',
-          border: '1px solid rgba(255, 255, 255, 0.03)',
+          border: '1px solid rgba(255, 255, 255, 0.05)',
           borderBottom: `6px solid ${neonGlow}`,
-          boxShadow: `0 20px 40px -10px ${neonGlow}50, inset 0 -15px 30px -15px ${neonGlow}40`,
+          boxShadow: `0 25px 50px -5px ${neonGlow}80, inset 0 -20px 40px -15px ${neonGlow}70, 0 0 20px ${neonGlow}50`,
           boxSizing: 'border-box'
         }}>
           {/* Big Emoji / Icon */}
           <div style={{
             fontSize: '3.5rem',
             marginBottom: '1.5rem',
-            filter: `drop-shadow(0 0 15px ${neonGlow}60)`
+            filter: `drop-shadow(0 0 20px ${neonGlow}90)`
           }}>
             {project.emoji}
           </div>
