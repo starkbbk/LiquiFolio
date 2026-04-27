@@ -307,9 +307,9 @@ const ProjectCard = ({ project, index }) => {
           transform: 'translateZ(1px)',
           WebkitTransform: 'translateZ(1px)',
           height: '100%',
-          backgroundColor: 'rgba(15, 20, 35, 0.4)', // Darker translucent glass so it's not blinding
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
+          backgroundColor: 'rgba(10, 15, 30, 0.15)',
+          backdropFilter: 'blur(6px)',
+          WebkitBackdropFilter: 'blur(6px)',
           borderRadius: '24px',
           padding: isMobileView ? '2rem 1.5rem' : '2.5rem 2rem',
           display: 'flex',

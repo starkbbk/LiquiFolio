@@ -1,15 +1,135 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import myPicture from '../assets/myPicture.png';
 
 const Hero = () => {
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 968);
-  const [isHoveringAvatar, setIsHoveringAvatar] = useState(false);
+  const laserCanvasRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => setIsMobileView(window.innerWidth <= 968);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Laser shooting animation between spaceships
+  useEffect(() => {
+    const canvas = laserCanvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let animationId;
+    const lasers = [];
+    const shipColors = ['#0284c7', '#2563eb', '#059669', '#ea580c', '#3b82f6', '#0ea5e9', '#666'];
+    
+    // Ship positions (matching the 7 ships)
+    const ships = [
+      { angle: 0, radius: 38, speed: 0.3 },
+      { angle: 51, radius: 42, speed: 0.25 },
+      { angle: 102, radius: 35, speed: 0.35 },
+      { angle: 153, radius: 40, speed: 0.28 },
+      { angle: 204, radius: 37, speed: 0.32 },
+      { angle: 255, radius: 44, speed: 0.22 },
+      { angle: 306, radius: 39, speed: 0.38 }
+    ];
+
+    const getShipPos = (ship, time) => {
+      const a = (ship.angle + time * ship.speed) * Math.PI / 180;
+      return {
+        x: canvas.width / 2 + (ship.radius / 100) * canvas.width * Math.cos(a),
+        y: canvas.height / 2 + (ship.radius / 100) * canvas.height * Math.sin(a)
+      };
+    };
+
+    const spawnLaser = (time) => {
+      const from = Math.floor(Math.random() * 7);
+      let to = Math.floor(Math.random() * 7);
+      while (to === from) to = Math.floor(Math.random() * 7);
+      
+      const fromPos = getShipPos(ships[from], time);
+      const toPos = getShipPos(ships[to], time);
+      
+      lasers.push({
+        fromX: fromPos.x, fromY: fromPos.y,
+        toX: toPos.x, toY: toPos.y,
+        progress: 0,
+        color: shipColors[from],
+        life: 1
+      });
+    };
+
+    let lastSpawn = 0;
+    let time = 0;
+
+    const animate = () => {
+      canvas.width = canvas.offsetWidth * 2;
+      canvas.height = canvas.offsetHeight * 2;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      time += 0.5;
+
+      // Spawn new laser every ~800ms
+      if (time - lastSpawn > 40) {
+        spawnLaser(time);
+        lastSpawn = time;
+      }
+
+      // Draw and update lasers
+      for (let i = lasers.length - 1; i >= 0; i--) {
+        const laser = lasers[i];
+        laser.progress += 0.04;
+        laser.life -= 0.02;
+
+        if (laser.life <= 0) {
+          lasers.splice(i, 1);
+          continue;
+        }
+
+        const headX = laser.fromX + (laser.toX - laser.fromX) * Math.min(laser.progress, 1);
+        const headY = laser.fromY + (laser.toY - laser.fromY) * Math.min(laser.progress, 1);
+        const tailProgress = Math.max(0, laser.progress - 0.3);
+        const tailX = laser.fromX + (laser.toX - laser.fromX) * Math.min(tailProgress, 1);
+        const tailY = laser.fromY + (laser.toY - laser.fromY) * Math.min(tailProgress, 1);
+
+        // Laser beam
+        ctx.beginPath();
+        ctx.moveTo(tailX, tailY);
+        ctx.lineTo(headX, headY);
+        ctx.strokeStyle = laser.color;
+        ctx.lineWidth = 3;
+        ctx.shadowColor = laser.color;
+        ctx.shadowBlur = 15;
+        ctx.globalAlpha = laser.life;
+        ctx.stroke();
+
+        // Bright core
+        ctx.beginPath();
+        ctx.moveTo(tailX, tailY);
+        ctx.lineTo(headX, headY);
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1.5;
+        ctx.shadowBlur = 8;
+        ctx.stroke();
+
+        // Impact flash
+        if (laser.progress >= 1 && laser.life > 0.5) {
+          ctx.beginPath();
+          ctx.arc(laser.toX, laser.toY, 8 * laser.life, 0, Math.PI * 2);
+          ctx.fillStyle = laser.color;
+          ctx.shadowColor = laser.color;
+          ctx.shadowBlur = 20;
+          ctx.fill();
+        }
+
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
+      }
+
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animate();
+    return () => cancelAnimationFrame(animationId);
   }, []);
 
   return (
@@ -183,76 +303,66 @@ const Hero = () => {
             <div style={{ position: 'absolute', width: '750px', height: '750px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.04)' }} />
           </div>
 
-          {/* Floating Skill Icons on Orbits */}
+          {/* Laser Canvas - shoots beams between spaceships */}
+          <canvas 
+            ref={laserCanvasRef}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              zIndex: 15,
+              pointerEvents: 'none'
+            }}
+          />
+
+          {/* Spaceship Skills - Always visible, 7 ships */}
           {[
-            // Primary (Always visible)
-            { name: 'React', bg: '#0284c7', top: '20%', left: '10%', delay: 0, isPrimary: true, rotate: -10 },
-            { name: 'Node.js', bg: '#059669', top: '30%', right: '5%', delay: 1, isPrimary: true, rotate: 15 },
-            { name: 'JS', bg: '#eab308', bottom: '25%', left: '15%', delay: 2, isPrimary: true, rotate: -5 },
-            { name: 'AI/ML', bg: '#ea580c', bottom: '15%', right: '20%', delay: 0.5, isPrimary: true, rotate: 10 },
-            // Secondary (Visible on hover)
-            { name: 'Python', bg: '#2563eb', top: '10%', right: '35%', delay: 0.2, rotate: -15 },
-            { name: 'TensorFlow', bg: '#f59e0b', bottom: '10%', left: '35%', delay: 0.4, rotate: 12 },
-            { name: 'TypeScript', bg: '#3b82f6', top: '40%', left: '5%', delay: 0.6, rotate: -8 },
-            { name: 'Docker', bg: '#0ea5e9', top: '55%', right: '5%', delay: 0.8, rotate: 20 },
-            { name: 'MongoDB', bg: '#10b981', bottom: '45%', right: '2%', delay: 0.3, rotate: -25 },
-            { name: 'AWS', bg: '#f97316', bottom: '35%', left: '2%', delay: 0.7, rotate: 5 },
-            { name: 'GraphQL', bg: '#db2777', top: '15%', left: '40%', delay: 0.5, rotate: 22 },
-            { name: 'Next.js', bg: '#333333', bottom: '15%', right: '40%', delay: 0.9, rotate: -18 },
-            // Tertiary (Extra density on hover)
-            { name: 'Vue.js', bg: '#10b981', top: '25%', right: '2%', delay: 0.1, rotate: 18 },
-            { name: 'Angular', bg: '#dd0031', bottom: '25%', left: '8%', delay: 0.5, rotate: -12 },
-            { name: 'Tailwind', bg: '#0ea5e9', top: '2%', left: '25%', delay: 0.7, rotate: 25 },
-            { name: 'Redux', bg: '#764abc', bottom: '2%', right: '25%', delay: 0.2, rotate: -20 },
-            { name: 'Figma', bg: '#f24e1e', top: '65%', left: '10%', delay: 0.6, rotate: 10 },
-            { name: 'Git', bg: '#f1502f', bottom: '65%', right: '10%', delay: 0.8, rotate: -15 },
-            { name: 'MySQL', bg: '#00758f', top: '5%', right: '15%', delay: 0.3, rotate: -5 },
-            { name: 'Redis', bg: '#d82c20', bottom: '5%', left: '15%', delay: 0.4, rotate: 8 }
-          ].map((skill, idx) => {
-            const isVisible = skill.isPrimary || isHoveringAvatar;
+            { name: 'React', bg: '#0284c7', angle: 0, radius: 38, speed: 8, rotate: -30 },
+            { name: 'Python', bg: '#2563eb', angle: 51, radius: 42, speed: 10, rotate: 20 },
+            { name: 'Node.js', bg: '#059669', angle: 102, radius: 35, speed: 7, rotate: -15 },
+            { name: 'AI/ML', bg: '#ea580c', angle: 153, radius: 40, speed: 9, rotate: 35 },
+            { name: 'TypeScript', bg: '#3b82f6', angle: 204, radius: 37, speed: 11, rotate: -25 },
+            { name: 'Docker', bg: '#0ea5e9', angle: 255, radius: 44, speed: 6, rotate: 10 },
+            { name: 'Next.js', bg: '#333', angle: 306, radius: 39, speed: 12, rotate: -40 }
+          ].map((ship, idx) => {
+            const orbitAngle = ship.angle + (Date.now() / (ship.speed * 100)) % 360;
             return (
               <motion.div
-                key={idx}
-                initial={{ opacity: skill.isPrimary ? 1 : 0, scale: skill.isPrimary ? 1 : 0 }}
+                key={ship.name}
+                className={`spaceship-${idx}`}
+                initial={{ opacity: 0, scale: 0 }}
                 animate={{ 
-                  y: isVisible ? [0, idx % 2 === 0 ? -15 : 15, 0] : 0, 
-                  rotate: isVisible ? [skill.rotate, skill.rotate + 5, skill.rotate] : skill.rotate,
-                  opacity: isVisible ? 1 : 0,
-                  scale: isVisible ? 1 : 0.5
+                  opacity: 1, 
+                  scale: 1
                 }}
-                transition={{ 
-                  y: { duration: 4 + (idx % 3), repeat: Infinity, ease: 'easeInOut', delay: skill.delay },
-                  rotate: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
-                  opacity: { duration: 0.4 },
-                  scale: { type: "spring", stiffness: 200, damping: 15 }
-                }}
+                transition={{ duration: 0.6, delay: idx * 0.15, type: 'spring' }}
                 style={{ 
                   position: 'absolute', 
-                  top: skill.top, 
-                  bottom: skill.bottom, 
-                  left: skill.left, 
-                  right: skill.right, 
-                  zIndex: skill.isPrimary ? 5 : 4, 
-                  pointerEvents: 'none'
+                  top: `${50 + ship.radius * Math.sin((ship.angle + idx * 20) * Math.PI / 180)}%`,
+                  left: `${50 + ship.radius * Math.cos((ship.angle + idx * 20) * Math.PI / 180)}%`,
+                  transform: 'translate(-50%, -50%)',
+                  zIndex: 20, 
+                  pointerEvents: 'none',
+                  animation: `orbit-${idx} ${ship.speed}s linear infinite`
                 }}
               >
                 <div 
                   className="spaceship-skill"
                   style={{
-                    background: `${skill.bg}aa`,
-                    padding: '8px 16px',
-                    borderRadius: '12px',
+                    background: `${ship.bg}cc`,
+                    padding: '6px 18px 6px 10px',
                     color: '#fff',
                     fontWeight: 'bold',
-                    fontSize: '1rem',
-                    boxShadow: `0 5px 15px ${skill.bg}50`,
-                    border: `1px solid ${skill.bg}`,
+                    fontSize: '0.85rem',
+                    boxShadow: `0 0 20px ${ship.bg}80, 0 0 40px ${ship.bg}30`,
+                    border: `1px solid ${ship.bg}`,
                     whiteSpace: 'nowrap',
-                    animation: `dogfight ${3 + (idx % 4)}s ${(idx * 0.5) % 2}s infinite alternate ease-in-out`,
-                    '--laser-color': skill.bg
+                    animation: `dogfight ${3 + (idx % 3)}s ${idx * 0.3}s infinite alternate ease-in-out`
                   }}
                 >
-                  {skill.name}
+                  {ship.name}
                 </div>
               </motion.div>
             );
@@ -263,8 +373,6 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            onMouseEnter={() => setIsHoveringAvatar(true)}
-            onMouseLeave={() => setIsHoveringAvatar(false)}
             style={{
               position: 'relative',
               width: isMobileView ? '320px' : '480px',
