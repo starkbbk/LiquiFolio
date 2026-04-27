@@ -130,13 +130,22 @@ a {
   100% { transform: scale(1.2) translate(10px, 10px); }
 }
 
+@keyframes animate-gradient-text {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 /* Utilities */
 .gradient-text {
-  background: linear-gradient(135deg, #a855f7, #06b6d4, #ec4899);
+  background: linear-gradient(270deg, #ff0055, #9d00ff, #00f0ff, #ffea00, #ff00aa, #ff0055);
+  background-size: 400% 400%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
+  animation: animate-gradient-text 6s ease infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 0, 85, 0.4));
 }
 
 .glow-effect {
