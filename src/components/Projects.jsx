@@ -6,24 +6,104 @@ import ReactMarkdown from 'react-markdown';
 
 const projectsData = [
   {
-    title: 'Web-UI-Transformer-Extension',
+    title: 'FlowCron',
     theme: 'lightning',
-    emoji: '🪄',
-    description: 'A browser extension for applying high-end Liquid Glass UI effects to any web component with interactive rendering filters.',
-    tech: ['JavaScript', 'HTML5', 'CSS3', 'Web APIs'],
-    link: 'https://github.com/starkbbk/Web-UI-Transformer-Extension',
+    emoji: '⏳',
+    description: 'Advanced workflow automation and cron job scheduler with a visual management interface and real-time execution tracking.',
+    tech: ['React', 'Node.js', 'Redis', 'Cron'],
+    link: 'https://github.com/starkbbk/FlowCron',
     sound: '/sounds/Lightning.mp3',
     features: [
-      'Injects realistic glassmorphism dynamically',
-      'Customizable blur and refraction levels',
-      'Optimized performance using CSS filters'
+      'Visual workflow builder',
+      'High-precision task scheduling',
+      'Dynamic error handling and retries'
     ],
-    installation: 'Clone and load unpacked extension in Chrome.',
-    usage: 'Click extension icon and select elements to transform.'
+    installation: 'npm install && npm run start',
+    usage: 'Define your flows and set the cron expression.'
+  },
+  {
+    title: 'AI-Tutor-Screener',
+    theme: 'fire',
+    emoji: '👨‍🏫',
+    description: 'AI-powered system for automated screening and evaluation of online tutors based on pedagogical performance metrics.',
+    tech: ['Python', 'NLP', 'TensorFlow', 'FastAPI'],
+    link: 'https://github.com/starkbbk/AI-Tutor-Screener',
+    sound: '/sounds/Fire.mp3',
+    features: [
+      'Automated resume parsing',
+      'Sentiment analysis of video interviews',
+      'Predictive performance scoring'
+    ],
+    installation: 'pip install -r requirements.txt',
+    usage: 'Upload candidate data for automated screening.'
+  },
+  {
+    title: 'ToolBoxHub',
+    theme: 'water',
+    emoji: '🧰',
+    description: 'A unified dashboard for essential developer utilities, providing a central hub for formatters, converters, and API testers.',
+    tech: ['TypeScript', 'React', 'Vite', 'Tailwind'],
+    link: 'https://github.com/starkbbk/ToolBoxHub',
+    sound: '/sounds/Water.mp3',
+    features: [
+      'Multi-format support (JSON, XML, SQL)',
+      'Offline-first architecture',
+      'Privacy-focused data processing'
+    ],
+    installation: 'npm install && npm run dev',
+    usage: 'Choose a tool from the hub and start building.'
+  },
+  {
+    title: 'Lost_and_Found',
+    theme: 'wind',
+    emoji: '🔍',
+    description: 'Community-driven platform for tracking and recovering lost items using real-time geolocation and instant matching notifications.',
+    tech: ['React Native', 'Firebase', 'Maps API', 'Cloud Functions'],
+    link: 'https://github.com/starkbbk/Lost_and_Found',
+    sound: '/sounds/Sand.mp3',
+    features: [
+      'Interactive map integration',
+      'Image recognition for item matching',
+      'Real-time chat for item recovery'
+    ],
+    installation: 'npm install && npx expo start',
+    usage: 'Report a lost item or browse found items nearby.'
+  },
+  {
+    title: 'EdgeViewer',
+    theme: 'earthquake',
+    emoji: '🌐',
+    description: 'High-performance visualization tool for edge computing data and network topology, optimizing latency monitoring and resource allocation.',
+    tech: ['D3.js', 'React', 'WebSockets', 'GraphQL'],
+    link: 'https://github.com/starkbbk/EdgeViewer',
+    sound: '/sounds/Sand.mp3',
+    features: [
+      'Real-time network traffic visualization',
+      'Edge node performance monitoring',
+      'Interactive topology maps'
+    ],
+    installation: 'npm install && npm start',
+    usage: 'Connect your edge nodes and visualize the data flow.'
+  },
+  {
+    title: 'Visual-Product-Matcher',
+    theme: 'tornado',
+    emoji: '🛍️',
+    description: 'Deep learning tool that matches product images across different e-commerce platforms using visual similarity algorithms.',
+    tech: ['PyTorch', 'Computer Vision', 'Flask', 'OpenCV'],
+    link: 'https://github.com/starkbbk/Visual-Product-Matcher',
+    sound: '/sounds/Wind.mp3',
+    features: [
+      'Image-to-image similarity search',
+      'Price comparison across platforms',
+      'Multi-object detection in complex scenes'
+    ],
+    installation: 'python setup.py install',
+    usage: 'Upload a product image to find matching listings.'
   },
   {
     title: 'Tech-Stack-Analyzer',
-    theme: 'fire',
+    theme: 'volcano',
     emoji: '🔍',
     description: 'A full-stack AI-powered application that seamlessly scans and analyzes website technology stacks using OpenRouter API.',
     tech: ['TypeScript', 'React', 'Node.js', 'AI'],
@@ -39,7 +119,7 @@ const projectsData = [
   },
   {
     title: 'AI-Code-Vulnerability-Scanner',
-    theme: 'water',
+    theme: 'blizzard',
     emoji: '🛡️',
     description: 'Python based Code Vulnerability Scanner that automatically detects and resolves vulnerabilities using intelligent static analysis.',
     tech: ['JavaScript', 'Python', 'AI', 'Security'],
@@ -55,12 +135,12 @@ const projectsData = [
   },
   {
     title: 'VoiceAI-Assistant',
-    theme: 'wind',
+    theme: 'meteor',
     emoji: '🎙️',
     description: 'A RAG-enabled production-ready Voice Assistant using gemma-3-4b-it model, built for high-performance and seamless voice interaction.',
     tech: ['JavaScript', 'RAG', 'Voice AI', 'LLM'],
     link: 'https://github.com/starkbbk/VoiceAI-Assistant',
-    sound: '/sounds/Sand.mp3',
+    sound: '/sounds/Lightning.mp3',
     features: [
       'Low latency voice-to-voice interaction',
       'RAG pipeline for specialized domain knowledge',
@@ -77,7 +157,12 @@ const themeColors = {
   lightning: { bg: 'rgba(168, 85, 247, 0.15)', border: 'rgba(168, 85, 247, 0.35)' },
   fire:      { bg: 'rgba(239, 68, 68, 0.15)',  border: 'rgba(239, 68, 68, 0.35)' },
   water:     { bg: 'rgba(6, 182, 212, 0.15)',  border: 'rgba(6, 182, 212, 0.35)' },
-  wind:      { bg: 'rgba(200, 169, 81, 0.15)', border: 'rgba(200, 169, 81, 0.40)' }  // Gold
+  wind:      { bg: 'rgba(200, 169, 81, 0.15)', border: 'rgba(200, 169, 81, 0.40)' }, // Gold
+  earthquake:{ bg: 'rgba(139, 69, 19, 0.15)',  border: 'rgba(139, 69, 19, 0.35)' }, // Brown
+  tornado:   { bg: 'rgba(169, 169, 169, 0.15)',border: 'rgba(169, 169, 169, 0.35)' },// Grey
+  volcano:   { bg: 'rgba(255, 69, 0, 0.15)',   border: 'rgba(255, 69, 0, 0.35)' }, // OrangeRed
+  blizzard:  { bg: 'rgba(224, 255, 255, 0.15)',border: 'rgba(224, 255, 255, 0.35)' },// Ice
+  meteor:    { bg: 'rgba(255, 20, 147, 0.15)', border: 'rgba(255, 20, 147, 0.35)' }  // Pink
 };
 
 const ProjectCard = ({ project, index }) => {
@@ -178,7 +263,7 @@ const ProjectCard = ({ project, index }) => {
         animation: `fadeIn 0.5s ease ${index * 0.1}s forwards`, 
         opacity: 0,
         perspective: '1200px', // Crucial for 3D flip effect
-        height: isMobileView ? '420px' : '460px' // Mobile par thoda kam height
+        height: isMobileView ? '460px' : '580px' // Increased height for 3-column layout
       }}
     >
       <motion.div
@@ -214,7 +299,7 @@ const ProjectCard = ({ project, index }) => {
             glassProps={{
               intensity: 0.25,
               blur: 12,
-              padding: '2.5rem',
+              padding: isMobileView ? '1.5rem' : '1.8rem',
               glassClassName: 'glass-projects mobile-glass-padding',
               style: {
                 borderRadius: '28px',
@@ -322,7 +407,7 @@ const ProjectCard = ({ project, index }) => {
             glassProps={{
               intensity: 0.25,
               blur: 12,
-              padding: '2rem',
+              padding: isMobileView ? '1.5rem' : '1.5rem',
               glassClassName: `glass-projects theme-${project.theme} mobile-glass-padding`,
               style: {
                 borderRadius: '28px',

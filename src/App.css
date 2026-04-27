@@ -198,7 +198,7 @@ a {
 /* Projects Grid Layout */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   align-items: start;
   width: 100%; /* REQUIRED to prevent shrinking inside flex container */
@@ -260,6 +260,41 @@ a {
   border: 2px solid #c8a951 !important;
   transition: all 0.5s ease !important;
   box-shadow: 0 0 20px #c8a951, 0 0 45px rgba(200, 169, 81, 0.5), inset 0 0 20px rgba(200, 169, 81, 0.08) !important;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+.theme-earthquake {
+  background: rgba(40, 20, 10, 0.85) !important;
+  border: 2px solid #8b4513 !important;
+  transition: all 0.5s ease !important;
+  box-shadow: 0 0 20px #8b4513, 0 0 40px #a0522d, inset 0 0 20px rgba(139,69,19,0.1) !important;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+.theme-tornado {
+  background: rgba(30, 30, 30, 0.85) !important;
+  border: 2px solid #a9a9a9 !important;
+  transition: all 0.5s ease !important;
+  box-shadow: 0 0 20px #a9a9a9, 0 0 40px #d3d3d3, inset 0 0 20px rgba(169,169,169,0.1) !important;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+.theme-volcano {
+  background: rgba(50, 10, 0, 0.85) !important;
+  border: 2px solid #ff4500 !important;
+  transition: all 0.5s ease !important;
+  box-shadow: 0 0 20px #ff4500, 0 0 40px #dc143c, inset 0 0 20px rgba(255,69,0,0.1) !important;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+.theme-blizzard {
+  background: rgba(0, 30, 50, 0.85) !important;
+  border: 2px solid #e0ffff !important;
+  transition: all 0.5s ease !important;
+  box-shadow: 0 0 20px #e0ffff, 0 0 40px #afeeee, inset 0 0 20px rgba(224,255,255,0.1) !important;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+.theme-meteor {
+  background: rgba(40, 0, 30, 0.85) !important;
+  border: 2px solid #ff1493 !important;
+  transition: all 0.5s ease !important;
+  box-shadow: 0 0 20px #ff1493, 0 0 40px #ff69b4, inset 0 0 20px rgba(255,20,147,0.1) !important;
   animation: pulseGlow 2s ease-in-out infinite;
 }
 

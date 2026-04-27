@@ -36,7 +36,12 @@ const ElementalCanvas = ({ theme, isActive, flipComplete }) => {
         'lightning': ['#00ffff', '#ffffff', '#7b2fff'],
         'fire': ['#ff4500', '#ff8c00', '#ffd700'],
         'water': ['#00bfff', '#1e90ff', '#87ceeb'],
-        'wind': ['#e0e0e0', '#b0c4de', '#ffffff']
+        'wind': ['#e0e0e0', '#b0c4de', '#ffffff'],
+        'earthquake': ['#8b4513', '#a0522d', '#cd853f'],
+        'tornado': ['#a9a9a9', '#d3d3d3', '#ffffff'],
+        'volcano': ['#ff4500', '#dc143c', '#ff0000'],
+        'blizzard': ['#ffffff', '#e0ffff', '#afeeee'],
+        'meteor': ['#ff1493', '#ff69b4', '#ffb6c1']
       }[theme] || ['#ffffff'];
 
       for (let i = 0; i < 30; i++) {
@@ -103,6 +108,44 @@ const ElementalCanvas = ({ theme, isActive, flipComplete }) => {
       for(let i=0; i<10; i++) {
         particles.push({
           type: 'streak', x: Math.random()*width, y: Math.random()*height, vx: Math.random()*5+5
+        });
+      }
+    } else if (theme === 'earthquake') {
+      for(let i=0; i<30; i++) {
+        particles.push({
+          x: Math.random() * width, y: height,
+          vy: -(Math.random() * 3 + 1), size: Math.random() * 4 + 2
+        });
+      }
+    } else if (theme === 'tornado') {
+      for(let i=0; i<40; i++) {
+        particles.push({
+          a: Math.random() * Math.PI * 2, y: Math.random() * height,
+          r: Math.random() * 50 + 20, s: Math.random() * 0.1 + 0.05
+        });
+      }
+    } else if (theme === 'volcano') {
+      for(let i=0; i<35; i++) {
+        particles.push({
+          x: width/2 + (Math.random()-0.5)*20, y: height,
+          vx: (Math.random()-0.5)*3, vy: -(Math.random()*6+4),
+          size: Math.random()*4+2, life: 1.0
+        });
+      }
+    } else if (theme === 'blizzard') {
+      for(let i=0; i<50; i++) {
+        particles.push({
+          x: Math.random() * width, y: Math.random() * height,
+          vx: Math.random() * 4 + 2, vy: Math.random() * 4 + 2,
+          size: Math.random() * 2 + 0.5
+        });
+      }
+    } else if (theme === 'meteor') {
+      for(let i=0; i<15; i++) {
+        particles.push({
+          x: Math.random() * width * 2, y: -Math.random() * height,
+          vx: -(Math.random() * 5 + 5), vy: Math.random() * 5 + 5,
+          length: Math.random() * 40 + 20
         });
       }
     }
@@ -210,6 +253,65 @@ const ElementalCanvas = ({ theme, isActive, flipComplete }) => {
             ctx.fillStyle = 'rgba(200, 169, 81, 0.6)';
             ctx.beginPath(); ctx.arc(px, py, 2, 0, Math.PI*2); ctx.fill();
           }
+        });
+      }
+
+      // --- EARTHQUAKE ---
+      if (theme === 'earthquake') {
+        ctx.fillStyle = `rgba(139, 69, 19, 0.1)`;
+        ctx.fillRect(0, 0, width, height);
+        particles.forEach((p) => {
+          p.y += p.vy; p.vy += 0.2; // gravity
+          if (p.y > height) { p.y = height; p.vy = -(Math.random() * 3 + 1); }
+          ctx.fillStyle = '#a0522d';
+          ctx.fillRect(p.x, p.y, p.size, p.size);
+        });
+      }
+      
+      // --- TORNADO ---
+      if (theme === 'tornado') {
+        particles.forEach(p => {
+          p.a += p.s; p.y -= 2;
+          if(p.y < -20) p.y = height + 20;
+          let px = width/2 + Math.cos(p.a) * (p.r + (height-p.y)*0.2);
+          ctx.fillStyle = 'rgba(169, 169, 169, 0.6)';
+          ctx.beginPath(); ctx.arc(px, p.y, 2, 0, Math.PI*2); ctx.fill();
+        });
+      }
+
+      // --- VOLCANO ---
+      if (theme === 'volcano') {
+        particles.forEach(p => {
+          p.x += p.vx; p.y += p.vy; p.vy += 0.15; p.life -= 0.01;
+          if(p.life <= 0 || p.y > height) {
+            p.x = width/2 + (Math.random()-0.5)*40; p.y = height;
+            p.vx = (Math.random()-0.5)*4; p.vy = -(Math.random()*6+4); p.life = 1.0;
+          }
+          ctx.fillStyle = `rgba(255, 69, 0, ${p.life})`;
+          ctx.shadowBlur = 10; ctx.shadowColor = '#ff0000';
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+        });
+      }
+
+      // --- BLIZZARD ---
+      if (theme === 'blizzard') {
+        particles.forEach(p => {
+          p.x -= p.vx; p.y += p.vy;
+          if(p.x < 0 || p.y > height) { p.x = width + 10; p.y = Math.random()*height - height/2; }
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+        });
+      }
+
+      // --- METEOR ---
+      if (theme === 'meteor') {
+        particles.forEach(p => {
+          p.x += p.vx; p.y += p.vy;
+          if(p.x < -p.length || p.y > height + p.length) {
+            p.x = Math.random() * width + width/2; p.y = -50;
+          }
+          ctx.strokeStyle = 'rgba(255, 20, 147, 0.8)'; ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - p.vx*2, p.y - p.vy*2); ctx.stroke();
         });
       }
 
