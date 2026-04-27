@@ -227,7 +227,7 @@ const Hero = () => {
                   padding: '12px 18px', 
                   borderRadius: '12px', 
                   zIndex: skill.isPrimary ? 5 : 4, 
-                  boxShadow: \`0 10px 20px \${skill.bg}50\`, 
+                  boxShadow: `0 10px 20px ${skill.bg}50`, 
                   color: '#fff', 
                   fontWeight: 'bold', 
                   fontSize: '1.2rem',
