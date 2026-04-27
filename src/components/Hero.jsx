@@ -25,20 +25,20 @@ const Hero = () => {
     const shipColors = ['#0284c7', '#2563eb', '#059669', '#ea580c', '#3b82f6', '#0ea5e9', '#555', '#f59e0b', '#10b981', '#f97316', '#db2777', '#f1502f', '#764abc', '#f24e1e'];
 
     const shipConfigs = [
-      { angle: 0, radius: 0.30, speed: 0.18 },
-      { angle: 26, radius: 0.35, speed: -0.14 },
-      { angle: 52, radius: 0.25, speed: 0.22 },
-      { angle: 78, radius: 0.33, speed: -0.12 },
-      { angle: 104, radius: 0.28, speed: 0.16 },
-      { angle: 130, radius: 0.37, speed: -0.20 },
-      { angle: 156, radius: 0.31, speed: 0.24 },
-      { angle: 182, radius: 0.34, speed: -0.15 },
-      { angle: 208, radius: 0.26, speed: 0.19 },
-      { angle: 234, radius: 0.36, speed: -0.17 },
-      { angle: 260, radius: 0.29, speed: 0.21 },
-      { angle: 286, radius: 0.32, speed: -0.13 },
-      { angle: 312, radius: 0.38, speed: 0.16 },
-      { angle: 338, radius: 0.27, speed: -0.23 }
+      { angle: 0, radius: 0.38, speed: 0.18 },
+      { angle: 26, radius: 0.44, speed: -0.14 },
+      { angle: 52, radius: 0.35, speed: 0.22 },
+      { angle: 78, radius: 0.42, speed: -0.12 },
+      { angle: 104, radius: 0.37, speed: 0.16 },
+      { angle: 130, radius: 0.46, speed: -0.20 },
+      { angle: 156, radius: 0.40, speed: 0.24 },
+      { angle: 182, radius: 0.43, speed: -0.15 },
+      { angle: 208, radius: 0.36, speed: 0.19 },
+      { angle: 234, radius: 0.45, speed: -0.17 },
+      { angle: 260, radius: 0.39, speed: 0.21 },
+      { angle: 286, radius: 0.41, speed: -0.13 },
+      { angle: 312, radius: 0.47, speed: 0.16 },
+      { angle: 338, radius: 0.37, speed: -0.23 }
     ];
 
     const angles = shipConfigs.map(s => s.angle);
